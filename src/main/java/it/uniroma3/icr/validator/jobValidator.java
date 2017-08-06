@@ -16,17 +16,17 @@ public class jobValidator {
 		}
 		 if(job.getNumberOfStudents()==null || job.getStudents()==0   ){
 			verifica=false;
-			model.addAttribute("errStudenti","*Questo campo non può essere nullo o zero");
+			model.addAttribute("errStudenti","*Questo campo non puo' essere nullo o zero");
 		}
 		 if(job.getNumberOfImages()==null || job.getNumberOfImages()==0 ){
 			verifica=false;
-			model.addAttribute("errImages","*Questo campo non può essere nullo o zero");
+			model.addAttribute("errImages","*Questo campo non puo' essere nullo o zero");
 
 		}
 		 
 		 if(job.getTaskSize()==null || job.getTaskSize()==0 ) {
 			verifica=false;
-			model.addAttribute("errTask","*Questo campo non può essere nullo o zero");
+			model.addAttribute("errTask","*Questo campo non puo' essere nullo o zero");
 		
 		}
 		return verifica;

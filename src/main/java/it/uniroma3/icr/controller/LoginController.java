@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import it.uniroma3.icr.model.Administrator;
 import it.uniroma3.icr.model.Student;
@@ -29,9 +31,15 @@ public class LoginController  {
 	public StudentFacade studentFacade;
 
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public String login (ModelMap model) {
+	public String login (ModelMap model,@RequestParam(value = "error", required = false) String error) {
+
+		if (error != null) {
+			model.addAttribute("error", "Username o password non validi");
+		}
 		model.addAttribute("user", new Student());
 		model.addAttribute("admin", new Administrator());
+		
+		
 		return "login";
 
 	}
@@ -43,12 +51,7 @@ public class LoginController  {
 	    }
 	    return "redirect:/login?logout";
 	}
-	@RequestMapping(value = "/error", method = RequestMethod.GET)
-	public String accesssDenied() {
-
-		return "/login";
-
-	}
+	
 
 	@RequestMapping(value="/role", method = RequestMethod.GET)
 	public String loginRole(Model model,HttpServletRequest request) {
@@ -56,7 +59,6 @@ public class LoginController  {
 		String role = auth.getAuthorities().toString();
 		Student student = studentFacade.findUser(auth.getName());
 		String targetUrl = "";
-
 		if(role.contains("ROLE_USER")) {
 			model.addAttribute("student", student);
 			targetUrl = "redirect:/user/homeStudent";

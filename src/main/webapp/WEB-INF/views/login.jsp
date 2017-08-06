@@ -50,12 +50,12 @@
 			<div id="signup">
 				<h1>Login</h1>
 
-				<form method="POST" name="f"
-					th:action="@{/login}">
+				<form method="POST" action="login">
 					<div class="top-row">
 						<div class="field-wrap">
 							<label> Username </label> <input type='text' name='username'
 								placeholder="Username" />
+								<font size="3" color="red">${error}</font>
 						</div>
 
 						<div class="field-wrap">
