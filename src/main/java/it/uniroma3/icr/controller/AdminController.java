@@ -108,6 +108,8 @@ public class AdminController {
 		return"administration/homeAdmin";
 	}
 
+	/*--------------------------------------------REGISTRA ADMIN------------------------------------------------------------------------*/
+
 	@RequestMapping(value="admin/registrationAdmin", method=RequestMethod.GET)
 	public String registration(@ModelAttribute Administrator administrator, Model model) {
 		return "administration/registrationAdmin";
