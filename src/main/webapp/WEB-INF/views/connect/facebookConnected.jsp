@@ -53,10 +53,12 @@
 	
 		<div class="inner">
 		
-		<h2>Pagina dello studente: 
+		<h2>Hai eseguito il login da facebook con successo <a href="/vai2">prosegui</a>
 				 <span class="container" ></span>
+				 
+				
 			
-				${student.name} ${student.surname}</h2>
+				</h2>
 		</div>
 	</section>
 	

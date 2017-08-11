@@ -1,3 +1,4 @@
+
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -10,6 +11,7 @@
 
 <head>
 <meta charset="utf-8">
+<base href="/" />
 <title>ICR</title>
 
 <!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
@@ -21,11 +23,14 @@
 <!-- Favicon -->
 <link rel="shortcut icon"
 	href="<c:url value="img/siteImages/favicon.ico"/>">
-
+<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body class="landing">
 	<!-- Page Wrapper -->
+	
 	<div id="page-wrapper">
 
 		<!-- Header -->
@@ -65,11 +70,20 @@
 
 						<button type="submit" class="button button-block">Invia</button>
 					</div>
-				</form>
-
+		</form>
+		
+		<form action="/connect/facebook" method="POST">
+			<input type="hidden" name="scope" value="email" />
+			<div class="formInfo">
+				Click the button to connect with your Facebook account.
 			</div>
+			<p><button type="submit">Connect to Facebook</button></p>
+		</form>
+		
 
-			<div id="login"></div>
+		</div>
+
+		<div id="login"></div>
 
 		</div>
 		<!-- tab-content -->

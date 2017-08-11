@@ -5,10 +5,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +33,8 @@ import it.uniroma3.icr.validator.studentValidator;
 public class UserController {
 
 	@Autowired
+	 private Facebook facebook;
+	@Autowired
 	private StudentFacade userFacade;
 	
 	@Autowired
@@ -42,7 +47,7 @@ public class UserController {
 	private void initBinder(WebDataBinder binder) {
 		binder.setValidator(validator);
 	}
-
+	
 	@RequestMapping(value="/registration", method = RequestMethod.GET)
 	public String registrazione(@ModelAttribute Student student, Model model) {
 
@@ -71,8 +76,17 @@ public class UserController {
 		/*if(bindingResult.hasErrors() || student.getName().isEmpty() || student.getSurname().isEmpty()) {
 			return "registration";
 		}*/
-
 		
+		 String [] fields = {"email"};
+	     User user = facebook.fetchObject("me", User.class, fields);
+	     String email= user.getEmail();
+	     System.out.println(email);
+	    System.out.println(student.getUsername()); 
+		
+		if(!email.equals(student.getUsername())){
+			model.addAttribute("errUsername","*Devi inserire la mail del tuo account facebook");
+			return "registration"; 
+		}
 		if(studentValidator.validate(student,model,u,a)){
 			
 			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

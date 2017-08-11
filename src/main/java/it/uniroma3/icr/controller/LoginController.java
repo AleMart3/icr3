@@ -43,6 +43,13 @@ public class LoginController  {
 		return "login";
 
 	}
+	
+	/*@RequestMapping(value="/login/facebook", method = RequestMethod.GET)
+	public String avanti(ModelMap model,@RequestParam(value = "_=_", required = false) String avanti){
+		return "login";
+	}*/
+	
+	
 	@RequestMapping(value="*/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();

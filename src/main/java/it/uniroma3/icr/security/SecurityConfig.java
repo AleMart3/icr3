@@ -13,8 +13,10 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
 	@Autowired
 	private DataSource dataSource;
+	
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,7 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
-
+	  
+	
+	 		
 		 http.authorizeRequests()
 		 	.antMatchers("/").permitAll()
 			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
@@ -45,11 +49,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
             .logout()
             .permitAll();
+		 
+	
+		 
+		
 	}
+	
+	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web
 		.ignoring()
 		.antMatchers("/resources/**", "/static/**", "/css/**","/fonts/**","/img/**","/sass/**", "/js/**", "/images/**");
 	}
+	
+	
 }

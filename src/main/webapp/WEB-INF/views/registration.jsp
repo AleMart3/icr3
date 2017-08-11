@@ -58,14 +58,14 @@
 					<div class="top-row">
 						<div class="field-wrap">
 							<label> Nome </label>
-							<form:input type="text" path="name" placeholder="Nome" />
+							<form:input type="text" path="name" placeholder="Nome" value="${nome}" />
 							${errName}
 							
 						</div>
 
 						<div class="field-wrap">
 							<label> Cognome </label>
-							<form:input type="text" path="surname" placeholder="Cognome" />
+							<form:input type="text" path="surname" placeholder="Cognome" value="${cognome}" />
 							${errSurname}
 						</div>
 
@@ -91,9 +91,10 @@
 
 						<div class="field-wrap">
 							<label> Username </label>
-							<form:input type="text" path='username' placeholder="Username" />
+							<form:input type="text" path='username' placeholder="Username" value="${email}" />
 							<font size="3" color="red">${usernameError}</font>
 							${errUsername}
+							
 						</div>
 
 						<div class="field-wrap">

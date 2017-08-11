@@ -12,6 +12,7 @@ public class studentValidator {
 	public static boolean validate(Student student, Model model,Student u,Administrator a) {
 		boolean verifica=true;
 		
+		
 		if(student.getName().equals("")){
 			verifica=false;
 			model.addAttribute("errName","*Campo obbligatorio");
@@ -40,7 +41,7 @@ public class studentValidator {
 		
 		if(u!=null || a!=null) {
 			verifica=false;
-			model.addAttribute("usernameError","Username già esistente");
+			model.addAttribute("usernameError","Username gia' esistente");
 		
 		}
 		

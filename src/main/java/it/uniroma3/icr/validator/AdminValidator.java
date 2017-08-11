@@ -22,7 +22,7 @@ public class AdminValidator {
 		
 		if(a!=null || s!=null) {
 			verifica=false;
-			model.addAttribute("usernameError","Username già esistente");
+			model.addAttribute("usernameError","Username gia' esistente");
 		
 		}
 		
