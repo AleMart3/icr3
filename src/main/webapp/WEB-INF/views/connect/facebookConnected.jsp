@@ -34,11 +34,9 @@
 					<li class="special"><a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="newTask">Vai al prossimo task</a></li>
-								<li><a href="studentTasks">Task Effettuati</a></li>
-								<li><a href="toChangePassword">Modifica Password</a></li>
+								<li><a href="/index">Torna alla pagina principale</a>
 								
-								<li><a href="logout">Logout</a></li>
+								<li><a href="/logout">Logout</a></li>
 							</ul>
 						</div></li>
 				</ul>
@@ -53,7 +51,7 @@
 	
 		<div class="inner">
 		
-		<h2>Hai eseguito il login da facebook con successo <a href="/vai2">prosegui</a>
+		<h2>Hai eseguito il login da facebook con successo <a href="/facebookLogin">prosegui</a>
 				 <span class="container" ></span>
 				 
 				

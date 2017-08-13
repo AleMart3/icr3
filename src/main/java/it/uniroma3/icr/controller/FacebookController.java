@@ -2,7 +2,6 @@ package it.uniroma3.icr.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
@@ -10,9 +9,9 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 
 import it.uniroma3.icr.model.Student;
 import it.uniroma3.icr.service.impl.StudentFacade;
@@ -33,12 +32,8 @@ public class FacebookController {
         
     }
 
-    @RequestMapping(value="/vai", method=RequestMethod.GET)
-    public String vai(){
-    	return "/connect/facebookConnect";
-    }
     
-    @RequestMapping(value="/vai2", method=RequestMethod.GET)
+    @RequestMapping(value="/facebookLogin", method=RequestMethod.GET)
     public String helloFacebook(Model model) {
         if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
             return "redirect:/connect/facebook";
@@ -72,7 +67,9 @@ public class FacebookController {
 		schoolGroups.put("4", "4");
 		schoolGroups.put("5", "5");
 		model.addAttribute("schoolGroups", schoolGroups);
-       return "/registration";
+       return "/registrationFacebook";
         }
     }
+    
+    	
 }

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.social.google.api.Google;
 import it.uniroma3.icr.model.Administrator;
 import it.uniroma3.icr.model.Student;
 import it.uniroma3.icr.service.impl.AdminFacade;
@@ -32,8 +32,14 @@ import it.uniroma3.icr.validator.studentValidator;
 @Controller
 public class UserController {
 
+	
 	@Autowired
 	 private Facebook facebook;
+	
+	@Autowired
+	 private Google google;
+	
+	
 	@Autowired
 	private StudentFacade userFacade;
 	
@@ -60,6 +66,7 @@ public class UserController {
 		return "registration";
 	}
 
+	
 	@RequestMapping(value="/addUser", method = RequestMethod.POST)
 	public String confirmUser(@ModelAttribute Student student, Model model, @Validated Student p, BindingResult bindingResult) {
 
@@ -77,24 +84,12 @@ public class UserController {
 			return "registration";
 		}*/
 		
-		 String [] fields = {"email"};
-	     User user = facebook.fetchObject("me", User.class, fields);
-	     String email= user.getEmail();
-	     System.out.println(email);
-	    System.out.println(student.getUsername()); 
 		
-		if(!email.equals(student.getUsername())){
-			model.addAttribute("errUsername","*Devi inserire la mail del tuo account facebook");
-			return "registration"; 
-		}
 		if(studentValidator.validate(student,model,u,a)){
-			
 			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String passwordEncode = passwordEncoder.encode(student.getPassword());
 			student.setPassword(passwordEncode);
-
 			model.addAttribute("student", student);
-
 			userFacade.retrieveUser(student);
 			return "registrationRecap"; 
 			} 
@@ -103,7 +98,87 @@ public class UserController {
 			}
 
 		}
+	
+	
+	
+	
+	@RequestMapping(value="/addUserFromFB", method = RequestMethod.POST)
+	public String confirmUserFB(@ModelAttribute Student student, Model model, @Validated Student p, BindingResult bindingResult) {
 
+		Map<String,String> schoolGroups = new HashMap<String,String>();
+		schoolGroups.put("3", "3");
+		schoolGroups.put("4", "4");
+		schoolGroups.put("5", "5");
+		model.addAttribute("schoolGroups", schoolGroups);
+		
+		Student u = userFacade.findUser(student.getUsername());
+		
+		Administrator a= adminFacade.findAdmin(student.getUsername());
+	
+		/*if(bindingResult.hasErrors() || student.getName().isEmpty() || student.getSurname().isEmpty()) {
+			return "registration";
+		}*/
+		
+		 String [] fields = {"email"};
+	     User user = facebook.fetchObject("me", User.class, fields);
+	     String emailFB= user.getEmail();
+		
+		if(!emailFB.equals(student.getUsername())){
+			model.addAttribute("errUsername","*Devi inserire la mail del tuo account facebook");
+			return "registrationFacebook"; 
+		}
+		
+		
+		if(studentValidator.validate(student,model,u,a)){
+			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String passwordEncode = passwordEncoder.encode(student.getPassword());
+			student.setPassword(passwordEncode);
+			model.addAttribute("student", student);
+			userFacade.retrieveUser(student);
+			return "registrationRecap"; 
+			} 
+			else{
+				return "registrationFacebook";
+			}
+
+		}
+	
+	
+	@RequestMapping(value="/addUserFromGoogle", method = RequestMethod.POST)
+	public String confirmUserGoogle(@ModelAttribute Student student, Model model, @Validated Student p, BindingResult bindingResult) {
+
+		Map<String,String> schoolGroups = new HashMap<String,String>();
+		schoolGroups.put("3", "3");
+		schoolGroups.put("4", "4");
+		schoolGroups.put("5", "5");
+		model.addAttribute("schoolGroups", schoolGroups);
+		
+		Student u = userFacade.findUser(student.getUsername());
+		Administrator a= adminFacade.findAdmin(student.getUsername());
+	
+		/*if(bindingResult.hasErrors() || student.getName().isEmpty() || student.getSurname().isEmpty()) {
+			return "registration";
+		}*/
+		
+		String emailGoogle=google.userOperations().getUserInfo().getEmail();
+		if(!emailGoogle.equals(student.getUsername())){	
+			model.addAttribute("errUsername","*Devi inserire la mail del tuo account google");
+			return "registrationGoogle"; 
+		}
+     
+		if(studentValidator.validate(student,model,u,a)){
+			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String passwordEncode = passwordEncoder.encode(student.getPassword());
+			student.setPassword(passwordEncode);
+			model.addAttribute("student", student);
+			userFacade.retrieveUser(student);
+			return "registrationRecap"; 
+			} 
+			else{
+				return "registrationGoogle";
+			}
+
+		}
 	
 	@RequestMapping(value="user/toChangeStudentPassword")
 	public String toChangePassword(@ModelAttribute Student student, Model model) {

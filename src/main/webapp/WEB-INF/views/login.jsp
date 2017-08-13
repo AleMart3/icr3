@@ -16,6 +16,7 @@
 
 <!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
 <link rel="stylesheet" href="css/registration.css" />
+<link rel="stylesheet" href="css/FBbotton.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie8.css" /><![endif]-->
 <!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
 
@@ -75,14 +76,26 @@
 		<form action="/connect/facebook" method="POST">
 			<input type="hidden" name="scope" value="email" />
 			<div class="formInfo">
-				Click the button to connect with your Facebook account.
 			</div>
-			<p><button type="submit">Connect to Facebook</button></p>
+			
+		<p><button type="submit" class="myButton">Connect to Facebook</button></p>
 		</form>
 		
-
 		</div>
+		
+		<form action="/connect/google" method="POST">
+			<input type="hidden" name="scope" value="email" />
+			<div class="formInfo">
+			</div>
+			
+		<p><button type="submit">Connect to Google</button></p>
+		</form>
 
+		
+		
+		
+		
+		
 		<div id="login"></div>
 
 		</div>
