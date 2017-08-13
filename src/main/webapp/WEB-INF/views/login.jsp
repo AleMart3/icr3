@@ -16,7 +16,10 @@
 
 <!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
 <link rel="stylesheet" href="css/registration.css" />
-<link rel="stylesheet" href="css/FBbotton.css" />
+<link rel="stylesheet" href="css/facebookgoogleButtons.css" />
+<link rel="stylesheet" href="css/provafbgoo.css" />
+
+
 <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie8.css" /><![endif]-->
 <!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
 
@@ -27,9 +30,10 @@
 <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 <script type="text/javascript"
 	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+	
 </head>
 
-<body class="landing">
+<body class="landing" >
 	<!-- Page Wrapper -->
 	
 	<div id="page-wrapper">
@@ -52,7 +56,7 @@
 		</header>
 	</div>
 	<div class="form">
-		<div class="tab-content">
+		<div class="tab-content" style='margin-top:-10px'>
 			<div id="signup">
 				<h1>Login</h1>
 
@@ -69,38 +73,41 @@
 								name='password' placeholder="Password">
 						</div>
 
-						<button type="submit" class="button button-block">Invia</button>
+						<button type="submit" class="button button-block" style='cursor:pointer'>Invia</button>
 					</div>
-		</form>
-		
-		<form action="/connect/facebook" method="POST">
-			<input type="hidden" name="scope" value="email" />
-			<div class="formInfo">
-			</div>
-			
-		<p><button type="submit" class="myButton">Connect to Facebook</button></p>
 		</form>
 		
 		</div>
 		
-		<form action="/connect/google" method="POST">
-			<input type="hidden" name="scope" value="email" />
-			<div class="formInfo">
-			</div>
-			
-		<p><button type="submit">Connect to Google</button></p>
-		</form>
+		<div>
+		
+		
 
+
+		<form class="form-inline1" action="/connect/facebook" method="POST" >
+			<input type="hidden" name="scope" value="email" />
+			
+			
+			<div class="social-wrap c">
+		 <button class="facebook" type="submit" style='cursor:pointer'>Accedi con Facebook</button> </div>
+		</form>
 		
+		<form class="form-inline2" action="/connect/google" method="POST" >
+			<input type="hidden" name="scope" value="email" />
+			
+			<div class="social-wrap c">
+		<button class="googleplus" type="submit" style='cursor:pointer' >Accedi con Google</button> </div>
+		</form>
 		
-		
-		
+		</div>
+
 		
 		<div id="login"></div>
 
 		</div>
 		<!-- tab-content -->
-
+	
+	
 	</div>
 	<!-- /form -->
 
