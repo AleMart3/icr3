@@ -16,8 +16,8 @@
 
 <!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
 <link rel="stylesheet" href="css/registration.css" />
-<link rel="stylesheet" href="css/facebookgoogleButtons.css" />
-<link rel="stylesheet" href="css/provafbgoo.css" />
+<link rel="stylesheet" href="css/facebookGoogleButtons.css" />
+
 
 
 <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie8.css" /><![endif]-->
