@@ -2,12 +2,9 @@ package it.uniroma3.icr.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,10 +22,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.icr.model.Symbol;
 import it.uniroma3.icr.model.Task;
@@ -50,7 +43,6 @@ import it.uniroma3.icr.service.impl.WordFacade;
 import it.uniroma3.icr.validator.AdminValidator;
 import it.uniroma3.icr.validator.jobValidator;
 import it.uniroma3.icr.view.CorrectStudentsAnswer;
-import it.uniroma3.icr.view.MajorityAnswers;
 import it.uniroma3.icr.view.MajorityVoting;
 import it.uniroma3.icr.view.StudentsProductivity;
 import it.uniroma3.icr.view.SymbolsAnswers;
@@ -62,7 +54,6 @@ import it.uniroma3.icr.service.impl.ImageFacade;
 import it.uniroma3.icr.service.impl.JobFacade;
 import it.uniroma3.icr.service.impl.ManuscriptService;
 import it.uniroma3.icr.service.impl.NegativeSampleService;
-import it.uniroma3.icr.service.impl.ResultFacade;
 import it.uniroma3.icr.service.impl.SampleService;
 import it.uniroma3.icr.service.impl.StudentFacade;
 
@@ -84,8 +75,6 @@ public class AdminController {
 	private NegativeSampleService negativeSampleService;
 	@Autowired
 	private TaskFacade facadeTask;
-	@Autowired
-	private ResultFacade facadeResult;
 	@Autowired
 	private SymbolFacade symbolFacade;;
 	@Autowired
@@ -176,6 +165,7 @@ public class AdminController {
 		Boolean bool = false;
 		List<Word> jobWords = null;
 		List<Image> imagesTask = null;
+		if(number!=null){
 		if(manuscript.getWords()!=null){
 //			job.setNumberOfImages(0);
 //			job.setManuscript(manuscript);
@@ -209,7 +199,7 @@ public class AdminController {
 			bool=true;
 		}else{ 
 			imagesTask = this.imageFacade.getImagesForTypeAndManuscriptName(job.getSymbol().getType(), manuscript.getName(),job.getNumberOfImages());
-//			job.setImages(imagesTask);
+			job.setImages(imagesTask);
 //			this.facadeJob.addJob(job);
 //			for(int i = 0; i<job.getNumberOfStudents;i++) {
 //				int batchNumber = 0;
@@ -229,22 +219,15 @@ public class AdminController {
 //				}
 //			}
 		}
-		
-		/*if (bindingResult.hasErrors()) {
-			String manuscriptName = manuscript.getName();
-			List<Symbol> symbols = symbolFacade.findSymbolByManuscriptName(manuscriptName);
-			Collections.sort(symbols, new ComparatoreSimboloPerNome());	
-			job.setManuscript(manuscript);
-			session.setAttribute("manuscript", manuscript);
-			model.addAttribute("symbols", symbols);
-			
-			return "administration/insertJobByManuscript";
 		}
-		else*/ if(jobValidator.validate(job,model)){
+		
+		 if(jobValidator.validate(job,model)){
+			 System.out.println("images4"+ "" + number);
 		this.facadeJob.createJob(job, manuscript, jobWords, imagesTask, bool, number,task);
 		return "administration/jobRecap";}
 		
 		else{
+			System.out.println("images5"+ "" + number);
 			String manuscriptName = manuscript.getName();
 			List<Symbol> symbols = symbolFacade.findSymbolByManuscriptName(manuscriptName);
 			Collections.sort(symbols, new ComparatoreSimboloPerNome());	
@@ -277,7 +260,10 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="admin/insertManuscript")
-	public String insertManuscript(@ModelAttribute("manuscript") Manuscript manuscript, Model model, HttpServletRequest request, @ModelAttribute Symbol symbol, @ModelAttribute Word word, @ModelAttribute Image image, @ModelAttribute Sample sample, @ModelAttribute NegativeSample negativeSample) throws FileNotFoundException, IOException{
+	public String insertManuscript(@ModelAttribute("manuscript") Manuscript manuscript, Model model, HttpServletRequest request,
+	@ModelAttribute Symbol symbol,@ModelAttribute Word word, @ModelAttribute Image image, @ModelAttribute Sample sample, @ModelAttribute NegativeSample negativeSample) 
+	throws FileNotFoundException, IOException{
+		
 		String manuscriptName = manuscript.getName();
 		this.manuscriptService.saveManuscript(manuscript);
 		Manuscript m = this.manuscriptService.findManuscriptByName(manuscriptName);

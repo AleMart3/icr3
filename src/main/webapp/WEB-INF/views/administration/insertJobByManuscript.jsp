@@ -58,30 +58,30 @@
 
 					<div class="field-wrap">
 						<label> Titolo </label>
-						<form:input type="text" value="${job.title}" path="title" placeholder="Titolo" />
+						<form:input type="text" value="${job.title}" path="title" placeholder="Titolo"  />
 						 ${errTitle}
 					</div>
 
 					<div class="field-wrap">
 
 						<div class="field-wrap">
-							<label> #Studenti </label>
+							<label> #Studenti </label> 
 							<form:input type="text" value="${job.students}" path='students'
-								placeholder="Numero di Studenti" onBlur="isnum(this)" />
+								placeholder="Numero di Studenti" onBlur="isnum(this)"  />
 							 ${errStudenti}
 						</div>
 
 						<div class="field-wrap">
 							<label> #Caratteri/Parole </label>
 							<form:input type="text" value="${job.numberOfImages}" path='numberOfImages'
-								placeholder="Numero Immagini/Parole" onBlur="isnum(this)" />
+								placeholder="Numero Immagini/Parole" onBlur="isnum(this)"  />
 							 ${errImages}
 						</div>
 
 						<div class="field-wrap">
 							<label> Dimensione Task </label>
 							<form:input type="text" value="${job.taskSize}" path='taskSize'
-								placeholder="Dimensione Task" onBlur="isnum(this)" />
+								placeholder="Dimensione Task" onBlur="isnum(this)"  />
 							 ${errTask}
 						</div>
 

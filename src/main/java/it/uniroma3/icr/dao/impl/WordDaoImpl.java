@@ -28,6 +28,7 @@ public class WordDaoImpl implements WordDaoCustom{
 		query.setParameter("manuscript", manuscript);
 		List<Word> words = query.setMaxResults(limit).getResultList();
 		
+		
 		return words;
 	}
 	@SuppressWarnings("unchecked")
