@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -113,6 +115,9 @@ public class AdminController {
 		
 		
 		if(AdminValidator.validate(administrator,model,a1,s1)){
+		/*PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String passwordEncode = passwordEncoder.encode(administrator.getPassword());
+		administrator.setPassword(passwordEncode);*/
 		administrator.setPassword(administrator.getPassword());
 		model.addAttribute("administrator", administrator);
 		adminFacade.addAdmin(administrator);
@@ -418,19 +423,29 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="admin/toChangeAdminPassword")
-	public String toChangeStudentPassword(@ModelAttribute Administrator a,Model model) {
+	public String toChangeAdminPassword(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		a = this.adminFacade.findAdmin(username);
+		Administrator a = this.adminFacade.findAdmin(username);
+		a.setPassword("");
 		model.addAttribute("administrator", a);
 
 		return "administration/changeAdminPassword";
 	}
 
 	@RequestMapping(value="admin/changeAdminPassword", method = RequestMethod.POST)
-	public String changeStudentPassword(@ModelAttribute Administrator a) {
-		a.setPassword(a.getPassword());
-		this.adminFacade.addAdmin(a);
+	public String changeAdminPassword(@ModelAttribute Administrator administrator,Model model) {
+		if(administrator.getPassword().equals("") || administrator.getPassword()==null){
+			model.addAttribute("errPassword", "*Campo Obbligatorio");
+			model.addAttribute("administrator", administrator);
+			return "administration/changeAdminPassword";
+		}
+		
+		/*PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String passwordEncode = passwordEncoder.encode(administrator.getPassword());
+		administrator.setPassword(passwordEncode);*/
+		administrator.setPassword(administrator.getPassword());
+		adminFacade.addAdmin(administrator);
 		return "administration/homeAdmin";
 	}
 }
