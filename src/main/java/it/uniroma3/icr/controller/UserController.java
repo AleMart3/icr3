@@ -163,7 +163,7 @@ public class UserController {
 		String emailGoogle=google.userOperations().getUserInfo().getEmail();
 		if(!emailGoogle.equals(student.getUsername())){	
 			model.addAttribute("errUsername","*Devi inserire la mail del tuo account google");
-			return "registrationGoogle"; 
+			return "registrationGoogle"; //
 		}
      
 		if(studentValidator.validate(student,model,u,a)){
