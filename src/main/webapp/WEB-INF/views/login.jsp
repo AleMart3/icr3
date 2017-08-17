@@ -90,6 +90,7 @@
 			
 			<div class="social-wrap c">
 		 <button class="facebook" type="submit" style='cursor:pointer'>Accedi con Facebook</button> </div>
+		 <input type="hidden" name="daFB" />
 		</form>
 		
 		<form class="form-inline2" action="/connect/google" method="POST" >
@@ -97,6 +98,7 @@
 			
 			<div class="social-wrap c">
 		<button class="googleplus" type="submit" style='cursor:pointer' >Accedi con Google</button> </div>
+		<input type="hidden" name="daGoogle" />
 		</form>
 		
 		</div>

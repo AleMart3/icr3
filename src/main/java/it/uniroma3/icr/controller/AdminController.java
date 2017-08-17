@@ -222,12 +222,9 @@ public class AdminController {
 		}
 		
 		 if(jobValidator.validate(job,model)){
-			 System.out.println("images4"+ "" + number);
 		this.facadeJob.createJob(job, manuscript, jobWords, imagesTask, bool, number,task);
 		return "administration/jobRecap";}
-		
 		else{
-			System.out.println("images5"+ "" + number);
 			String manuscriptName = manuscript.getName();
 			List<Symbol> symbols = symbolFacade.findSymbolByManuscriptName(manuscriptName);
 			Collections.sort(symbols, new ComparatoreSimboloPerNome());	

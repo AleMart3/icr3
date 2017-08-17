@@ -181,10 +181,11 @@ public class UserController {
 		}
 	
 	@RequestMapping(value="user/toChangeStudentPassword")
-	public String toChangePassword(@ModelAttribute Student student, Model model) {
+	public String toChangePassword(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		student = userFacade.findUser(username);
+		Student student = userFacade.findUser(username);
+		student.setPassword("");
 		model.addAttribute("student", student);
 		return "users/changeStudentPassword";
 

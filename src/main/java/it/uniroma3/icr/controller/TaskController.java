@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.social.facebook.api.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.icr.model.ComparatorePerData;
 import it.uniroma3.icr.model.ComparatoreResultPerWordeX;
@@ -66,19 +68,20 @@ public class TaskController {
 	public @ModelAttribute("taskResults")TaskWrapper setupWrapper() {
 		return new TaskWrapper();
 	}
+	
+	
+	
+	
 	@RequestMapping(value= "user/newTask", method = RequestMethod.GET)
 	public String taskChoose(@ModelAttribute Task task, @ModelAttribute Job job, @ModelAttribute Result result,
 			@ModelAttribute("taskResults") TaskWrapper taskResults, Model model,
 			HttpServletRequest request) {
-
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String s = auth.getName();
 		Student student = studentFacade.findUser(s);
 		model.addAttribute("student", student);
-
 		Long taskId = (Long)request.getSession().getAttribute("thisId");
 		task = taskFacade.assignTask(student, taskId);
-
 		if(task!=null) {
 
 			request.getSession().setAttribute("thisId", task.getId());
@@ -113,6 +116,7 @@ public class TaskController {
 		
 		return "users/goodBye";
 	}
+	
 
 	@RequestMapping(value="user/secondConsoleWord", method = RequestMethod.POST)
 	public String taskRecapWord(@ModelAttribute("taskResults") TaskWrapper taskResults,

@@ -1,8 +1,16 @@
 package it.uniroma3.icr.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
@@ -11,7 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.icr.model.Student;
 import it.uniroma3.icr.service.impl.StudentFacade;
@@ -33,22 +41,35 @@ public class FacebookController {
     }
 
     
+    
     @RequestMapping(value="/facebookLogin", method=RequestMethod.GET)
-    public String helloFacebook(Model model) {
-        if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
+    public String helloFacebook(@RequestParam(value = "daFB", required = false)String daFB, Model model) {
+    	if(daFB==null)
+    		return "redirect:/login";
+       
+    	if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
             return "redirect:/connect/facebook";
         }
-
+        
         String [] fields = {"name","email"};
         User user = facebook.fetchObject("me", User.class, fields);
-        
+       
         String email= user.getEmail();
+      
         Student student= userFacade.findUser(email);
+        
         if(student!=null){
+        	SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
+            List<SimpleGrantedAuthority> updatedAuthorities = new ArrayList<SimpleGrantedAuthority>();
+            updatedAuthorities.add(authority);
+            
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+            												student.getUsername(),student.getPassword(),updatedAuthorities);
+            auth.setDetails(student); 
+            SecurityContextHolder.getContext().setAuthentication(auth);
         	model.addAttribute("student", student);
-        	return "users/homeStudent";
+        	return "redirect:/user/homeStudent";
         }
-        else{
         
         
         String userprofile=user.getName();
@@ -68,8 +89,7 @@ public class FacebookController {
 		schoolGroups.put("5", "5");
 		model.addAttribute("schoolGroups", schoolGroups);
        return "/registrationFacebook";
-        }
+        
+       
     }
-    
-    	
 }
