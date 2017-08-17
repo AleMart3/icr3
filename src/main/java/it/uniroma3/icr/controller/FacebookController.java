@@ -42,7 +42,7 @@ public class FacebookController {
 
     
     
-    @RequestMapping(value="/facebookLogin", method=RequestMethod.GET)
+    @RequestMapping(value="/facebookLogin", method = {RequestMethod.GET, RequestMethod.POST})
     public String helloFacebook(@RequestParam(value = "daFB", required = false)String daFB, Model model) {
     	if(daFB==null)
     		return "redirect:/login";
@@ -92,4 +92,5 @@ public class FacebookController {
         
        
     }
+    
 }

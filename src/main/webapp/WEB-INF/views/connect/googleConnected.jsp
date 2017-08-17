@@ -50,12 +50,19 @@
 	
 		<div class="inner">
 		
-		<h2>Hai eseguito il login da google con successo <a href="/googleLogin">prosegui</a>
+		<h2>	Hai eseguito il login da Google con successo  </h2>
+				
+				<form action="/googleLogin" method="post">
+				<button type="submit" style='cursor:pointer'>prosegui</button> 
+				<input type="hidden" name="daGoogle" />
+				</form>
+				
+				
 				 <span class="container" ></span>
 				 
 				
 			
-				</h2>
+			
 		</div>
 	</section>
 	

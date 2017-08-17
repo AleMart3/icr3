@@ -41,7 +41,7 @@ public class GoogleController {
     }
 
     
-    @RequestMapping(value="/googleLogin", method=RequestMethod.GET)
+    @RequestMapping(value="/googleLogin", method = {RequestMethod.GET, RequestMethod.POST})
     public String helloGoogle(@RequestParam(value = "daGoogle", required = false)String daGoogle, Model model ) {
        
     	if(daGoogle==null)

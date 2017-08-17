@@ -51,12 +51,17 @@
 	
 		<div class="inner">
 		
-		<h2>Hai eseguito il login da facebook con successo <a href="/facebookLogin">prosegui</a>
+	<h2>	Hai eseguito il login da Facebook con successo  </h2>
+				
+				<form action="/facebookLogin" method="post">
+				<button type="submit" style='cursor:pointer'>prosegui</button> 
+				<input type="hidden" name="daFB" />
+				</form>
+				
 				 <span class="container" ></span>
 				 
 				
 			
-				</h2>
 		</div>
 	</section>
 	

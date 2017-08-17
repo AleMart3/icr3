@@ -56,6 +56,7 @@
 							<label>Nuova Password </label>
 							<form:input type='password' path="password"
 								placeholder="Password" />
+								${errPassword}
 						</div>
 						<div class="field-wrap">
 							<label> Conferma Password </label> <input type="password"

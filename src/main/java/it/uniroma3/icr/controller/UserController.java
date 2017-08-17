@@ -192,7 +192,13 @@ public class UserController {
 	}
 
 	@RequestMapping(value="user/changeStudentPassword", method = RequestMethod.POST)
-	public String changePassword(@ModelAttribute Student student) {
+	public String changePassword(@ModelAttribute Student student, Model model) {
+		if(student.getPassword().equals("") || student.getPassword()==null){
+			model.addAttribute("errPassword", "*Campo Obbligatorio");
+			model.addAttribute("student", student);
+			return "users/changeStudentPassword";
+		}
+		
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String passwordEncode = passwordEncoder.encode(student.getPassword());
 		student.setPassword(passwordEncode);
