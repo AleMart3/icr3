@@ -97,19 +97,7 @@
 							
 						</div>
 
-						<div class="field-wrap">
-							<label> Password </label>
-							<form:input type="password" path='password'
-								placeholder="Password" name="password" />
-								${errPassword}
-						</div>
-						<div class="field-wrap">
-							<label> Conferma Password </label> <input type="password"
-								placeholder="Conferma Password" name="password2" />
-						</div>
-
-						<font color="white"><springForm:errors path="username" /></font>
-						<font color="white"><springForm:errors path="password" /></font>
+						
 
 						<button type="submit" class="button button-block">Conferma</button>
 					</div>

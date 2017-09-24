@@ -17,6 +17,7 @@ import it.uniroma3.icr.dao.ImageDao;
 import it.uniroma3.icr.insertImageInDb.utils.GetImagePath;
 import it.uniroma3.icr.model.Image;
 import it.uniroma3.icr.model.Manuscript;
+import it.uniroma3.icr.model.Word;
 
 @Service
 public class ImageFacade {
@@ -29,7 +30,34 @@ public class ImageFacade {
 	public void getListImageProperties(String p, Manuscript manuscript) throws FileNotFoundException, IOException {
 
 
-		File[] files = new File(p).listFiles();
+		File file = new File(p);
+		File[] subFiles = file.listFiles();
+		for(int i=0; i<subFiles.length; i++) {
+			String page = subFiles[i].getName();
+			File[] rows = subFiles[i].listFiles();
+			for(int m=0; m<rows.length; m++) {
+				String row = rows[m].getName();
+				File[] words = rows[m].listFiles();
+				for(int y=0; y<words.length; y++){
+					File[] files = words[y].listFiles();
+					File[] images = files[1].listFiles(); //prendo solo la cartella cut_point_view
+					for(int z=0; z<images.length; z++){
+						String image = FilenameUtils.getBaseName(images[z].getName());
+						Word word= new Word();
+						String path = images[z].getPath();
+						path = path.substring(69, path.length());
+						Image img = new Image();
+						this.updateImage(img,image,manuscript,page,row,word,path);
+						
+				}
+			}
+			}
+		}
+	}
+	
+	
+	/*
+	 	File[] files = new File(p).listFiles();
 
 		for(int i=0;i<files.length;i++) {
 
@@ -49,6 +77,7 @@ public class ImageFacade {
 					int width = Integer.valueOf(parts[0]);
 					int x = Integer.valueOf(parts[1]);
 					int y = Integer.valueOf(parts[2]);
+					
 
 					BufferedInputStream in = null;
 
@@ -80,6 +109,24 @@ public class ImageFacade {
 				}
 			}
 		}
+	}
+	 */
+	
+	public Image updateImage(Image img, String name, Manuscript manuscript, String page, String row, Word word, String path){
+		//divido il path delle cartelle e lo rigiro per ottenere sempre per prime le info importanti
+		img.setManuscript(manuscript);
+		img.setPage(page);
+		img.setRow(row);
+		img.setWord(word);
+		img.setPath(path);
+		//divido il nome della parola
+		String[] listType = name.split("\\_");
+		img.setX(Integer.valueOf(listType[0]));
+		img.setY(Integer.valueOf(listType[1]));
+		img.setWidth(Integer.valueOf(listType[2]));
+		img.setHeight(Integer.valueOf(listType[3]));
+		manuscript.addImage(img);
+		return img;
 	}
 	
 	public void addImage(Image i) {

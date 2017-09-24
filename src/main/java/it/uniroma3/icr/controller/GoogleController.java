@@ -64,7 +64,7 @@ public class GoogleController {
             auth.setDetails(student); 
             SecurityContextHolder.getContext().setAuthentication(auth);
         	model.addAttribute("student", student);
-        	return "redirect:/user/homeStudent";
+        	return "redirect:/user/homeStudentSocial";
         }
         else{
         

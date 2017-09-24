@@ -42,7 +42,6 @@ public class WordFacade {
 						this.updateImage(img,image,manuscript,page,row,word,path);
 						if(word.getHeight()==null)
 							word.setHeight(img.getHeight());
-						System.out.println("img height" + img.getHeight());
 						word.addImage(img);
 					}
 					word.findWidth();

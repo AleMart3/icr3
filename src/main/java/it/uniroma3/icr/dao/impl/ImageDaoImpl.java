@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.icr.dao.ImageDaoCustom;
 import it.uniroma3.icr.model.Image;
+import it.uniroma3.icr.model.Word;
 
 @Repository
 @Transactional(readOnly=false)
@@ -22,6 +23,14 @@ public class ImageDaoImpl implements ImageDaoCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Image> findImageForTypeAndManuscriptName(String type,String manuscript, int limit) {
+		/*String s = "FROM Image i WHERE i.manuscript = :manuscript ORDER BY RANDOM()";
+		Query query = this.entityManager.createQuery(s);
+		query.setParameter("type", type);
+		query.setParameter("manuscript", manuscript);
+		List<Image> images = query.setMaxResults(limit).getResultList();
+		
+		
+		return images;*/
 		String s = "FROM Image i WHERE i.type = :type and i.manuscript = :manuscript ORDER BY RANDOM()";
 		Query query = entityManager.createNativeQuery(s,Image.class).setMaxResults(limit);
 		query.setParameter("type", type);

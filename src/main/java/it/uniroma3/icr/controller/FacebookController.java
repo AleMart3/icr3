@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -68,7 +67,7 @@ public class FacebookController {
             auth.setDetails(student); 
             SecurityContextHolder.getContext().setAuthentication(auth);
         	model.addAttribute("student", student);
-        	return "redirect:/user/homeStudent";
+        	return "redirect:/user/homeStudentSocial";
         }
         
         

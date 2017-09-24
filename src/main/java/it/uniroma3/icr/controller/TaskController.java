@@ -219,4 +219,153 @@ public class TaskController {
 		model.addAttribute("s", s);
 		return "users/studentTasks";
 	}
+	
+	@RequestMapping(value= "user/newTaskSocial", method = RequestMethod.GET)
+	public String taskChoose2(@ModelAttribute Task task, @ModelAttribute Job job, @ModelAttribute Result result,
+			@ModelAttribute("taskResults") TaskWrapper taskResults, Model model,
+			HttpServletRequest request) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String s = auth.getName();
+		Student student = studentFacade.findUser(s);
+		model.addAttribute("student", student);
+		Long taskId = (Long)request.getSession().getAttribute("thisId");
+		task = taskFacade.assignTask(student, taskId);
+		if(task!=null) {
+
+			request.getSession().setAttribute("thisId", task.getId());
+
+			List<Sample> positiveSamples = sampleService.findAllSamplesBySymbolId(task.getJob().getSymbol().getId());
+			List<Sample> negativeSamples = negativeSampleService.findAllNegativeSamplesBySymbolId(task.getJob().getSymbol().getId());
+
+			List<Result> listResults = resultFacade.findTaskResult(task);
+			String url = "";
+			if(task.getJob().getWords()!=null){
+				ComparatoreResultPerWordeX c = new ComparatoreResultPerWordeX();
+				listResults.sort(c);
+				url = "users/newTaskWordSocial";
+			
+			}else{
+					Collections.shuffle(listResults);
+					url = "users/newTaskImage";
+				}
+			taskResults.setResultList(listResults);	
+			for(Result r: taskResults.getResultList()){
+				r.getImage().setPath(r.getImage().getPath().replace(File.separatorChar,'/'));
+			}
+			model.addAttribute("student", student);
+
+			model.addAttribute("positiveSamples", positiveSamples);
+			model.addAttribute("negativeSamples", negativeSamples);
+
+			model.addAttribute("task", task);
+			model.addAttribute("taskResults", taskResults);
+			return url;
+		}
+		
+		return "users/goodByeSocial";
+	}
+	
+
+	@RequestMapping(value="user/secondConsoleWordSocial", method = RequestMethod.POST)
+	public String taskRecapWord2(@ModelAttribute("taskResults") TaskWrapper taskResults,
+			Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String s = auth.getName();
+		Student student = studentFacade.findUser(s);
+		model.addAttribute("student", student);
+
+		String action = request.getParameter("action");
+		String targetUrl = "";
+
+		String conferma1 = "Conferma e vai al prossimo task";
+		String conferma2 = "Conferma e torna alla pagina dello studente";
+
+
+		if(conferma1.equals(action)) {
+			for(Result result : taskResults.getResultList()) {
+				Task task = result.getTask();
+				taskFacade.updateEndDate(task);
+				if(result.getAnswer() == null)
+					result.setAnswer("No");
+			}
+			resultFacade.updateListResult(taskResults);
+			request.getSession().removeAttribute("thisId");
+			response.sendRedirect("newTask");
+			targetUrl = "users/newTaskWordSocial";
+		}
+		else{
+			if(conferma2.equals(action)) {
+				for(Result result : taskResults.getResultList()) {
+					Task task = result.getTask();
+					taskFacade.updateEndDate(task);
+					if(result.getAnswer() == null)
+						result.setAnswer("No");
+				}
+				resultFacade.updateListResult(taskResults);
+			}
+			request.getSession().removeAttribute("thisId");
+			targetUrl = "users/homeStudentSocial";
+		}
+
+		return targetUrl;
+
+	}
+	@RequestMapping(value="user/secondConsoleSocial", method = RequestMethod.POST)
+	public String taskRecap2(@ModelAttribute("taskResults") TaskWrapper taskResults,
+			Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String s = auth.getName();
+		Student student = studentFacade.findUser(s);
+		model.addAttribute("student", student);
+
+		String action = request.getParameter("action");
+		String targetUrl = "";
+
+		String conferma1 = "Conferma e vai al prossimo task";
+		String conferma2 = "Conferma e torna alla pagina dello studente";
+
+
+		if(conferma1.equals(action)) {
+			for(Result result : taskResults.getResultList()) {
+				Task task = result.getTask();
+				taskFacade.updateEndDate(task);
+				if(result.getAnswer() == null)
+					result.setAnswer("No");
+			}
+			resultFacade.updateListResult(taskResults);
+			request.getSession().removeAttribute("thisId");
+			response.sendRedirect("newTaskSocial");
+
+			targetUrl = "users/newTaskSocial";
+		}
+		else{
+			if(conferma2.equals(action)) {
+				for(Result result : taskResults.getResultList()) {
+					Task task = result.getTask();
+					taskFacade.updateEndDate(task);
+					if(result.getAnswer() == null)
+						result.setAnswer("No");
+				}
+				resultFacade.updateListResult(taskResults);
+			}
+			request.getSession().removeAttribute("thisId");
+			targetUrl = "users/homeStudentSocial";
+		}
+
+		return targetUrl;
+
+	}
+	
+	@RequestMapping(value="user/studentTasksSocial")
+	public String studentTasks2(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Student s = studentFacade.findUser(auth.getName());
+		List<Task> studentTasks = taskFacade.findTaskByStudent(s.getId());
+		Collections.sort(studentTasks, new ComparatorePerData());
+		model.addAttribute("studentTasks", studentTasks);
+		model.addAttribute("s", s);
+		return "users/studentTasksSocial";
+	}
 }		

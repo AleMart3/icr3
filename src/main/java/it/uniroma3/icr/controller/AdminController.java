@@ -161,7 +161,7 @@ public class AdminController {
 
 	@RequestMapping(value="admin/addJobByManuscript")
 	public String confirmJobByManuscript(HttpSession session, HttpServletRequest request, @Valid @ModelAttribute Job job, 
-			BindingResult bindingResult, @ModelAttribute Task task, @ModelAttribute Image image, @ModelAttribute Result result, Model model ){
+	BindingResult bindingResult, @ModelAttribute Task task, @ModelAttribute Image image, @ModelAttribute Result result, Model model ){
 		Manuscript manuscript = manuscriptService.findManuscriptByName(((Manuscript) session.getAttribute("manuscript")).getName());
 		model.addAttribute("job",job);
 		model.addAttribute("task",task);
@@ -263,8 +263,8 @@ public class AdminController {
 
 	@RequestMapping(value="admin/insertManuscript")
 	public String insertManuscript(@ModelAttribute("manuscript") Manuscript manuscript, Model model, HttpServletRequest request,
-	@ModelAttribute Symbol symbol,@ModelAttribute Word word, @ModelAttribute Image image, @ModelAttribute Sample sample, @ModelAttribute NegativeSample negativeSample) 
-	throws FileNotFoundException, IOException{
+	@ModelAttribute Symbol symbol,@ModelAttribute Word word, @ModelAttribute Image image, @ModelAttribute Sample sample,
+	@ModelAttribute NegativeSample negativeSample) throws FileNotFoundException, IOException{
 		
 		String manuscriptName = manuscript.getName();
 		this.manuscriptService.saveManuscript(manuscript);
@@ -284,12 +284,13 @@ public class AdminController {
 		if(wordString.equals(action)) {
 			path = wordFacade.getPath();
 			path = path.concat(manuscriptName).concat("\\\\");
-			wordFacade.updateImagesWords(path, m);
+			wordFacade.updateImagesWords(path, m);   //ho 978 parole e 9161 caratteri
 		}else {
 			if(imageString.equals(action)) {
 				path = imageFacade.getPath();
 				path = path.concat(manuscriptName).concat("\\\\");
-				imageFacade.getListImageProperties(path, m);
+				wordFacade.updateImagesWords(path, m);
+				//imageFacade.getListImageProperties(path, m);
 			}
 		}
 		this.manuscriptService.saveManuscript(manuscript);

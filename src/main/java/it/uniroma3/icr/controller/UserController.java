@@ -28,6 +28,7 @@ import it.uniroma3.icr.model.Student;
 import it.uniroma3.icr.service.impl.AdminFacade;
 import it.uniroma3.icr.service.impl.StudentFacade;
 import it.uniroma3.icr.validator.studentValidator;
+import it.uniroma3.icr.validator.studentValidator2;
 
 @Controller
 public class UserController {
@@ -129,10 +130,7 @@ public class UserController {
 		}
 		
 		
-		if(studentValidator.validate(student,model,u,a)){
-			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			String passwordEncode = passwordEncoder.encode(student.getPassword());
-			student.setPassword(passwordEncode);
+		if(studentValidator2.validate(student,model,u,a)){
 			model.addAttribute("student", student);
 			userFacade.retrieveUser(student);
 			return "registrationRecap"; 
@@ -166,10 +164,7 @@ public class UserController {
 			return "registrationGoogle"; //
 		}
      
-		if(studentValidator.validate(student,model,u,a)){
-			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			String passwordEncode = passwordEncoder.encode(student.getPassword());
-			student.setPassword(passwordEncode);
+		if(studentValidator2.validate(student,model,u,a)){
 			model.addAttribute("student", student);
 			userFacade.retrieveUser(student);
 			return "registrationRecap"; 
@@ -213,6 +208,14 @@ public class UserController {
 		student = userFacade.findUser(username);
 		model.addAttribute("student", student);
 		return "users/homeStudent";
+	}
+	@RequestMapping(value="/user/homeStudentSocial")
+	public String toHomeStudentSocial(@ModelAttribute Student student, Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		student = userFacade.findUser(username);
+		model.addAttribute("student", student);
+		return "users/homeStudentSocial";
 	}
 
 }

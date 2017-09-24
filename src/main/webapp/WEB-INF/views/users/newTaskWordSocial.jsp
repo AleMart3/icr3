@@ -96,7 +96,7 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 	</div>
 
 
-	<form:form method="post" action="secondConsoleWord"
+	<form:form method="post" action="secondConsoleWordSocial"
 		modelAttribute="taskResults" name="form">
 
 
@@ -141,7 +141,7 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 	</form:form>
 
 	<div align="center">
-		<form:form method="post" action="homeStudent">
+		<form:form method="post" action="homeStudentSocial">
 			<input type="submit" value="Torna alla pagina dello studente">
 		</form:form>
 
