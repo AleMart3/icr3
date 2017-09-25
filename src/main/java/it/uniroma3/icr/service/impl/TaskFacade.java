@@ -1,17 +1,23 @@
 package it.uniroma3.icr.service.impl;
 
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import it.uniroma3.icr.dao.StudentDao;
 import it.uniroma3.icr.dao.TaskDao;
 import it.uniroma3.icr.model.Image;
 import it.uniroma3.icr.model.Job;
 import it.uniroma3.icr.model.Result;
 import it.uniroma3.icr.model.Student;
 import it.uniroma3.icr.model.Task;
+
 
 @Service
 public class TaskFacade {
@@ -20,6 +26,9 @@ public class TaskFacade {
 	private TaskDao taskDao;
 	@Autowired
 	private ResultFacade resultFacade;
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	public void addTask(Task t) {
 		taskDao.save(t);
@@ -37,22 +46,74 @@ public class TaskFacade {
 		return this.taskDao.findByStudentId(id);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Task assignTask(Student s, Long id) {
 		Task task = null;
 		if(id == null){
-			List<Task> tasksByStudent = this.taskDao.findByStudentId(s.getId());
-			List<Task> taskList = this.taskDao.findByStudentIsNull();
-			for(int i=0; i<taskList.size();i++){
-				if(!tasksByStudent.contains(taskList.get(i))){
-					task = taskList.get(i);
-					task.setStudent(s);
-					Calendar calendar = Calendar.getInstance();
-					java.util.Date now = calendar.getTime();
-					java.sql.Timestamp date = new java.sql.Timestamp(now.getTime());
-					task.setStartDate(date);
-
-					break;
+			
+			String sr2 = "SELECT t FROM Task t WHERE t.student.id='"+ s.getId()+"'"+"AND t.endDate IS NOT NULL";
+			Query query2= this.entityManager.createQuery(sr2);
+			List<Task> tasksByStudent = query2.getResultList(); //trova i task completati  dallo studente
+			
+			String sr3 = "SELECT t FROM Task t WHERE t.student.id='"+s.getId()+"'"+ "AND t.endDate IS NULL";
+			Query query3= this.entityManager.createQuery(sr3);
+			List<Task> taskList = query3.getResultList(); //trova i task senza data finale dello studente
+			
+			String sr4 = "SELECT t FROM Task t WHERE t.student.id IS NULL";
+			Query query4= this.entityManager.createQuery(sr4);
+			List<Task> taskList2 = query4.getResultList(); //trova i task senza studente
+			
+			taskList.addAll(taskList2); // task senza studente+ task senza data finale
+			
+			String sr = "SELECT job_id FROM task WHERE student_id='"+ s.getId()+"'"+"AND end_date IS NOT NULL";
+			Query query= this.entityManager.createNativeQuery(sr);
+			List<BigInteger> jobsIdCompletati = query.getResultList(); //job effettuati dallo studente
+			
+		
+			
+	for(int i=0; i<taskList.size();i++){
+				
+				Long jobId= taskList.get(i).getJob().getId();
+				int cont=0;
+				boolean ver=false;
+				
+				for(int z=0;z<jobsIdCompletati.size();z++)
+				if(jobId==jobsIdCompletati.get(z).longValue()) {
+					cont++;
+					Integer batch= taskList.get(i).getBatch();
+					
+						
+						String sr5 = "SELECT t.student.id FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.student IS NOT NULL";
+						Query query5= this.entityManager.createQuery(sr5);
+						List<Long> utentiConQuelJob = query5.getResultList(); 
+						
+						if(utentiConQuelJob.contains(s.getId())) {
+							String sr6 = "SELECT t.batch FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.student='"+ s.getId()+"'"+"AND end_date IS NOT NULL";
+							Query query6= this.entityManager.createQuery(sr6);
+							List<Integer> batchUtentiConQuelJob = query6.getResultList(); 
+							boolean o=batchUtentiConQuelJob.contains(batch);
+							if(o==false)
+							 ver=true;
+						}
+					
+						
+					
 				}
+				if(cont==0 || ver){
+				
+					if(false==tasksByStudent.contains(taskList.get(i))){
+						task = taskList.get(i);
+						task.setStudent(s);
+						Calendar calendar = Calendar.getInstance();
+						java.util.Date now = calendar.getTime();
+						java.sql.Timestamp date = new java.sql.Timestamp(now.getTime());
+						task.setStartDate(date);
+
+						break;
+					}	
+				}
+				
+			
 			}
 			if(task!=null){
 				s.addTask(task);
@@ -62,6 +123,7 @@ public class TaskFacade {
 			task = this.taskDao.findOne(id);
 		}
 
+		
 		return task;
 	}
 

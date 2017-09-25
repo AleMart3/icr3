@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.social.facebook.api.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.icr.model.ComparatorePerData;
 import it.uniroma3.icr.model.ComparatoreResultPerWordeX;
@@ -220,6 +218,7 @@ public class TaskController {
 		return "users/studentTasks";
 	}
 	
+//-------------------------------------------------VERSIONE SOCIAL ---------------------------------------------------------------------
 	@RequestMapping(value= "user/newTaskSocial", method = RequestMethod.GET)
 	public String taskChoose2(@ModelAttribute Task task, @ModelAttribute Job job, @ModelAttribute Result result,
 			@ModelAttribute("taskResults") TaskWrapper taskResults, Model model,
