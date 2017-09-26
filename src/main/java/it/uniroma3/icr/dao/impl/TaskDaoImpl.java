@@ -35,7 +35,8 @@ public class TaskDaoImpl implements TaskDaoCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> studentsProductivity() {
-		String sql = "select student.id, student.name, student.surname, count(*)/40 as numero_task from Student student, Task task, Result result where (student.id=task.student.id and task.id = result.task.id) group by student.id order by numero_task ";
+		//String sql = "select student.id, student.name, student.surname, count(*) as numero_task from Student student, Task task, Result result where (student.id=task.student.id and task.id = result.task.id) group by student.id order by numero_task "; //questo è il numero immagini selezionate
+		String sql = "select student.id, student.name, student.surname, count(*) as numero_task from Task task, Student student where (task.student.id=student.id) group by student.id order by numero_task ";
 		Query query = this.entityManager.createQuery(sql);
 		List<Object> tasks = query.getResultList();
 		return tasks;
