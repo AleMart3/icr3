@@ -49,12 +49,16 @@
 
 	<table>
 		<tr>
+			<th> Job ID </th>
+			<th> Batch </th>
 			<th>Tempo Medio</th>
 			<th>Tempo Massimo</th>
 			<th>Tempo Minimo</th>
 		</tr>
 		<c:forEach var="ts" items="${taskTimes}">
 			<tr>
+				<th><c:out value="${ts.jobId}"></c:out></th>
+				<th><c:out value="${ts.batch}"></c:out></th>
 				<th><c:out value="${ts.avgDate}"></c:out></th>
 				<th><c:out value="${ts.maxDate}"></c:out></th>
 				<th><c:out value="${ts.minDate}"></c:out></th>

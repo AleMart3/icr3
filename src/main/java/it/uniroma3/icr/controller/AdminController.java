@@ -365,9 +365,11 @@ public class AdminController {
 		List<TaskTimes> taskTimes = new ArrayList<>();
 		for(Object o : times) {
 			TaskTimes ts = new TaskTimes();
-			ts.setAvgDate(((String)((Object[])o)[0]).toString());
-			ts.setMaxDate(((String)((Object[])o)[1]).toString());
-			ts.setMinDate(((String)((Object[])o)[2]).toString());
+			ts.setJobId(((Number) ((Object[])o)[0]).longValue());
+			ts.setBatch(((Number) ((Object[])o)[1]).intValue());
+			ts.setAvgDate(((String)((Object[])o)[2]).toString());
+			ts.setMaxDate(((String)((Object[])o)[3]).toString());
+			ts.setMinDate(((String)((Object[])o)[4]).toString());
 			taskTimes.add(ts);
 		}
 		model.addAttribute("taskTimes", taskTimes);

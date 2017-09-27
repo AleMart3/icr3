@@ -45,7 +45,7 @@ public class TaskDaoImpl implements TaskDaoCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> taskTimes() {
-		String sql= " select to_char(avg(task.enddate - task.startdate), 'HH12:MI:SS') as tempo_medio, to_char(max(task.enddate - task.startdate), 'HH12:MI:SS') as tempo_massimo, to_char(min(task.enddate - task.startdate), 'HH12:MI:SS') as tempo_minimo from Task task where task.enddate is not null";
+		String sql= " select task.job.id,task.batch,to_char(avg(task.endDate - task.startDate), 'HH24:MI:SS:MS') as tempo_medio, to_char(max(task.endDate - task.startDate), 'HH24:MI:SS:MS') as tempo_massimo, to_char(min(task.endDate - task.startDate), 'HH24:MI:SS:MS') as tempo_minimo from Task task where task.endDate IS NOT NULL group by task.job.id,task.batch order by task.job.id";
 		Query query = this.entityManager.createQuery(sql);
 		List<Object> times = query.getResultList();
 		System.out.println(times);
