@@ -134,15 +134,18 @@ public class AdminController {
 	private String toSelectManuscript(@ModelAttribute Job job, @ModelAttribute Manuscript manuscript, @ModelAttribute Task task, Model model) {
 
 		List<Manuscript> listManuscripts = this.manuscriptService.findAllManuscript();
+		if(listManuscripts.size()==0)
+			return "administration/noManuscriptForJob";
 
 		List<String> listManuscriptsName = new ArrayList<>();
 		for(Manuscript m : listManuscripts){
 			listManuscriptsName.add(m.getName());
 		}
+		
 		model.addAttribute("manuscripts", listManuscriptsName);
 		model.addAttribute("job", job);
 		model.addAttribute("task", task);
-		return"administration/selectImageByManuscript";
+		return "administration/selectImageByManuscript";
 	}
 
 
@@ -155,7 +158,7 @@ public class AdminController {
 		session.setAttribute("manuscript", manuscript);
 		model.addAttribute("symbols", symbols);
 		model.addAttribute("job", job);
-		return"administration/insertJobByManuscript";
+		return "administration/insertJobByManuscript";
 
 	}
 
