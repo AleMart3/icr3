@@ -290,7 +290,7 @@ public class TaskController {
 			}
 			resultFacade.updateListResult(taskResults);
 			request.getSession().removeAttribute("thisId");
-			response.sendRedirect("newTask");
+			response.sendRedirect("newTaskSocial");
 			targetUrl = "users/newTaskWordSocial";
 		}
 		else{

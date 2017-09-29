@@ -45,9 +45,9 @@
 					<li class="special"><a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="/login">Log In</a></li>
-								<li><a href="/registration">Registra un nuovo Studente</a></li>
-								<li><a href="/index">Torna alla pagina principale</a></li>
+								<li><a href="${pageContext.request.contextPath}/login">Log In</a></li>
+								<li><a href="${pageContext.request.contextPath}/registration">Registra un nuovo Studente</a></li>
+								<li><a href="${pageContext.request.contextPath}/index">Torna alla pagina principale</a></li>
 							</ul>
 						</div></li>
 				</ul>
@@ -59,7 +59,7 @@
 			<div id="signup">
 				<h1>Login</h1>
 
-				<form method="POST" action="/login">
+				<form method="POST" action="${pageContext.request.contextPath}/login">
 					<div class="top-row">
 						<div class="field-wrap">
 							<label> Username </label> <input type='text' name='username'

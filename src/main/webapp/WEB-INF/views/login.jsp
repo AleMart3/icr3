@@ -15,8 +15,8 @@
 <title>ICR</title>
 
 <!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
-<link rel="stylesheet" href="css/registration.css" />
-<link rel="stylesheet" href="css/facebookGoogleButtons.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/registration.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/facebookGoogleButtons.css" />
 
 
 
@@ -27,9 +27,9 @@
 <!-- Favicon -->
 <link rel="shortcut icon"
 	href="<c:url value="img/siteImages/favicon.ico"/>">
-<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="webjars/jquery/jquery.min.js"></script>
 <script type="text/javascript"
-	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+	src="webjars/bootstrap/js/bootstrap.min.js"></script>
 	
 </head>
 
@@ -60,7 +60,7 @@
 			<div id="signup">
 				<h1>Login</h1>
 
-				<form method="POST" action="login">
+				<form method="POST" action="${pageContext.request.contextPath}/login">
 					<div class="top-row">
 						<div class="field-wrap">
 							<label> Username </label> <input type='text' name='username'
@@ -84,7 +84,7 @@
 		
 
 
-		<form class="form-inline1" action="/connect/facebook" method="POST" >
+		<form class="form-inline1" action="${pageContext.request.contextPath}/connect/facebook" method="POST" >
 			<input type="hidden" name="scope" value="email" />
 			
 			
@@ -93,7 +93,7 @@
 		 <input type="hidden" name="daFB" />
 		</form>
 		
-		<form class="form-inline2" action="/connect/google" method="POST" >
+		<form class="form-inline2" action="${pageContext.request.contextPath}/connect/google" method="POST" >
 			<input type="hidden" name="scope" value="email" />
 			
 			<div class="social-wrap c">
@@ -115,13 +115,13 @@
 
 
 	<!-- Scripts -->
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/jquery.scrollex.min.js"></script>
-	<script src="/js/jquery.scrolly.min.js"></script>
-	<script src="/js/skel.min.js"></script>
-	<script src="/js/util.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.scrollex.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.scrolly.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/skel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/util.js"></script>
 	<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
-	<script src="/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/js/main.js"></script>
 
 </body>
 </html>

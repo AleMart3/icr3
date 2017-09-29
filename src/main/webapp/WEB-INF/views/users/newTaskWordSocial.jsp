@@ -17,13 +17,13 @@
 <title>ICR</title>
 
 <!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
-<link rel="stylesheet" href="/css/newTaskWord.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/newTaskWord.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie8.css" /><![endif]-->
 <!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
 
 <!-- Favicon -->
 <link rel="shortcut icon"
-	href="<c:url value="/img/siteImages/favicon.ico"/>">
+	href="<c:url value="${pageContext.request.contextPath}/img/siteImages/favicon.ico"/>">
 <style type="text/css">
 <c:forEach varStatus="vs" var="result" items="${taskResults.resultList}">
 input[name="resultList[${vs.index}].answer"] {
@@ -32,7 +32,7 @@ input[name="resultList[${vs.index}].answer"] {
 
 input[name="resultList[${vs.index}].answer"]+label {
 	background:
-		url("http://localhost:8080/${result.image.path}")
+		url("http://localhost:8080/${pageContext.request.contextPath}/${result.image.path}")
 		no-repeat;
 	background-size: contain;
 	height: ${result.image.height*4}px;
@@ -44,7 +44,7 @@ input[name="resultList[${vs.index}].answer"]+label {
 
 input[name="resultList[${vs.index}].answer"]:checked+label {
 	background:
-		url("http://localhost:8080/${result.image.path}")
+		url("http://localhost:8080/${pageContext.request.contextPath}/${result.image.path}")
 		no-repeat;
 		background-size: contain;
 	height: ${result.image.height*4}px;
@@ -76,7 +76,7 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 			<tr>
 				<c:forEach varStatus="vs" var="sample" items="${positiveSamples}">
 
-					<td><img src="http://localhost:8080/${sample.path}" alt="${sample.id}" /></td>
+					<td><img src="http://localhost:8080/${pageContext.request.contextPath}/${sample.path}" alt="${sample.id}" /></td>
 				</c:forEach>
 			</tr>
 		</table>
@@ -88,7 +88,7 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 		<table class="neg">
 			<tr>
 				<c:forEach varStatus="vs" var="sample" items="${negativeSamples}">
-					<td><img src="http://localhost:8080/${sample.path}" alt="${sample.id}" /></td>
+					<td><img src="http://localhost:8080/${pageContext.request.contextPath}/${sample.path}" alt="${sample.id}" /></td>
 
 				</c:forEach>
 			</tr>
@@ -149,16 +149,16 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 
 
 	<!-- Scripts -->
-	<script src="/js/selectAll.js"></script>
+	<script src="${pageContext.request.contextPath}/js/selectAll.js"></script>
 
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/jquery.scrollex.min.js"></script>
-	<script src="/js/jquery.scrolly.min.js"></script>
-	<script src="/js/skel.min.js"></script>
-	<script src="/js/util.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.scrollex.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.scrolly.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/skel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/util.js"></script>
 	<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
-	<script src="/js/main.js"></script>
-	<script src="/js/backButton.js"></script>
+	<script src="${pageContext.request.contextPath}/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/js/backButton.js"></script>
 
 
 </body>

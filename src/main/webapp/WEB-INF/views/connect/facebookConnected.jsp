@@ -9,12 +9,12 @@
 
 
 <!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
-<link rel="stylesheet" href="/css/main.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie8.css" /><![endif]-->
 <!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="/img/siteImages/favicon.ico" />
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/img/siteImages/favicon.ico" />
 
 
 
@@ -34,9 +34,9 @@
 					<li class="special"><a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="/index">Torna alla pagina principale</a>
+								<li><a href="${pageContext.request.contextPath}/index">Torna alla pagina principale</a>
 								
-								<li><a href="/logout">Logout</a></li>
+								<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
 							</ul>
 						</div></li>
 				</ul>
@@ -53,7 +53,7 @@
 		
 	<h2>	Hai eseguito il login da Facebook con successo  </h2>
 				
-				<form action="/facebookLogin" method="post">
+				<form action="${pageContext.request.contextPath}/facebookLogin" method="post">
 				<button type="submit" style='cursor:pointer'>prosegui</button> 
 				<input type="hidden" name="daFB" />
 				</form>
@@ -69,13 +69,13 @@
 	
 	
 	<!-- Scripts -->
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/jquery.scrollex.min.js"></script>
-	<script src="/js/jquery.scrolly.min.js"></script>
-	<script src="/js/skel.min.js"></script>
-	<script src="/js/util.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.scrollex.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.scrolly.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/skel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/util.js"></script>
 	<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
-	<script src="/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/js/main.js"></script>
 
 </body>
 </html>
