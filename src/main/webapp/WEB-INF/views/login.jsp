@@ -26,10 +26,9 @@
 
 <!-- Favicon -->
 <link rel="shortcut icon"
-	href="<c:url value="img/siteImages/favicon.ico"/>">
-<script type="text/javascript" src="webjars/jquery/jquery.min.js"></script>
-<script type="text/javascript"
-	src="webjars/bootstrap/js/bootstrap.min.js"></script>
+	href="<c:url value="${pageContext.request.contextPath}/img/siteImages/favicon.ico"/>">
+<script type="text/javascript" src="${pageContext.request.contextPath}/webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/webjars/bootstrap/js/bootstrap.min.js"></script>
 	
 </head>
 
@@ -46,9 +45,9 @@
 					<li class="special"><a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="login">Log In</a></li>
-								<li><a href="registration">Registra un nuovo Studente</a></li>
-								<li><a href="index">Torna alla pagina principale</a></li>
+								<li><a href="${pageContext.request.contextPath}/login">Log In</a></li>
+								<li><a href="${pageContext.request.contextPath}/registration">Registra un nuovo Studente</a></li>
+								<li><a href="${pageContext.request.contextPath}/index">Torna alla pagina principale</a></li>
 							</ul>
 						</div></li>
 				</ul>
