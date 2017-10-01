@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -36,7 +37,23 @@
 							<ul>
 								<li><a href="${pageContext.request.contextPath}/index">Torna alla pagina principale</a>
 								
-								<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+								
+ 									<li><form name="submitForm1" method="POST" action="/connect/facebook">
+    								<input type="hidden" name="_method" value="delete" />
+   									 <A HREF="javascript:document.submitForm1.submit()" style="
+   									 		border: 0;
+											font-size: 0.8em;
+											letter-spacing: 0.225em;
+											text-decoration: none;
+											text-transform: uppercase;">
+									Logout
+									</A>
+									</form>	
+									</li>
+ 							
+								
+							
+								
 							</ul>
 						</div></li>
 				</ul>
@@ -56,6 +73,7 @@
 				<form action="${pageContext.request.contextPath}/facebookLogin" method="post">
 				<button type="submit" style='cursor:pointer'>prosegui</button> 
 				<input type="hidden" name="daFB" />
+				<input type="hidden" name="social" value="fb" />
 				</form>
 				
 				 <span class="container" ></span>
@@ -76,6 +94,7 @@
 	<script src="${pageContext.request.contextPath}/js/util.js"></script>
 	<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
 	<script src="${pageContext.request.contextPath}/js/main.js"></script>
+		<script src="${pageContext.request.contextPath}/js/backButton.js"></script>
 
 </body>
 </html>

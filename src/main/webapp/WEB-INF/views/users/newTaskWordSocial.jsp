@@ -9,6 +9,7 @@
 	prefix="springForm"%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -96,7 +97,7 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 	</div>
 
 
-	<form:form method="post" action="secondConsoleWordSocial"
+	<form:form method="post" action="secondConsoleWordSocial?social=${social}"
 		modelAttribute="taskResults" name="form">
 
 
@@ -141,7 +142,7 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 	</form:form>
 
 	<div align="center">
-		<form:form method="post" action="homeStudentSocial">
+		<form:form method="post" action="homeStudentSocial?social=${social}">
 			<input type="submit" value="Torna alla pagina dello studente">
 		</form:form>
 
@@ -159,6 +160,7 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 	<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
 	<script src="${pageContext.request.contextPath}/js/main.js"></script>
 	<script src="${pageContext.request.contextPath}/js/backButton.js"></script>
+	
 
 
 </body>

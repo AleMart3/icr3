@@ -13,10 +13,11 @@ import org.springframework.social.google.api.Google;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.icr.model.Student;
 import it.uniroma3.icr.service.impl.StudentFacade;
@@ -42,7 +43,8 @@ public class GoogleController {
 
     
     @RequestMapping(value="/googleLogin", method = {RequestMethod.GET, RequestMethod.POST})
-    public String helloGoogle(@RequestParam(value = "daGoogle", required = false)String daGoogle, Model model ) {
+    public String helloGoogle(@RequestParam(value = "daGoogle", required = false)String daGoogle, Model model,
+    		@ModelAttribute("social") String social,RedirectAttributes redirectAttributes) {
        
     	if(daGoogle==null)
     		return "redirect:/login";
@@ -64,12 +66,16 @@ public class GoogleController {
             auth.setDetails(student); 
             SecurityContextHolder.getContext().setAuthentication(auth);
         	model.addAttribute("student", student);
+        	social="goo";
+        	redirectAttributes.addFlashAttribute("social", social);
         	return "redirect:/user/homeStudentSocial";
         }
         else{
         
         
         String userprofile=google.userOperations().getUserInfo().getName();
+        if(userprofile.equals(""))
+        	return "users/noGooglePlus";
         String[] temp;
 		String delimiter = " ";
 		temp = userprofile.split(delimiter);   

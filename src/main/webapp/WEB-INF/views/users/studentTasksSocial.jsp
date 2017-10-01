@@ -41,9 +41,38 @@
 					<li class="special"><a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="homeStudentSocial">Torna alla pagine dello
+								<li><a href="homeStudentSocial?social=${social}">Torna alla pagine dello
 										studente</a></li>
-								<li><a href="logout">Logout</a></li>
+								<c:if test="${social=='fb'}">
+ 									<li><form name="submitForm1" method="POST" action="/connect/facebook">
+    								<input type="hidden" name="_method" value="delete" />
+   									 <A HREF="javascript:document.submitForm1.submit()" style="
+   									 		border: 0;
+											font-size: 0.8em;
+											letter-spacing: 0.225em;
+											text-decoration: none;
+											text-transform: uppercase;">
+									Logout
+									</A>
+									</form>	
+									</li>
+ 								</c:if>
+								
+								<c:if test="${social=='goo'}">
+								<li>
+								<form name="submitForm2" method="POST" action="/connect/google">
+    								<input type="hidden" name="_method" value="delete" />
+   									 <A HREF="javascript:document.submitForm2.submit()" style="
+   									 		border: 0;
+											font-size: 0.8em;
+											letter-spacing: 0.225em;
+											text-decoration: none;
+											text-transform: uppercase;">
+									Logout
+									</A>
+								</form>
+								</li>
+								</c:if>
 							</ul>
 						</div></li>
 				</ul>
@@ -89,6 +118,7 @@
 	<script src="${pageContext.request.contextPath}/js/util.js"></script>
 	<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
 	<script src="${pageContext.request.contextPath}/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/js/backButton.js"></script>
 
 </body>
 </html>

@@ -16,9 +16,11 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.icr.model.Student;
 import it.uniroma3.icr.service.impl.StudentFacade;
@@ -42,7 +44,8 @@ public class FacebookController {
     
     
     @RequestMapping(value="/facebookLogin", method = {RequestMethod.GET, RequestMethod.POST})
-    public String helloFacebook(@RequestParam(value = "daFB", required = false)String daFB, Model model) {
+    public String helloFacebook(@RequestParam(value = "daFB", required = false)String daFB, Model model,
+    		@ModelAttribute("social") String social,RedirectAttributes redirectAttributes) {
     	if(daFB==null)
     		return "redirect:/login";
        
@@ -67,6 +70,8 @@ public class FacebookController {
             auth.setDetails(student); 
             SecurityContextHolder.getContext().setAuthentication(auth);
         	model.addAttribute("student", student);
+        	social="fb";
+        	redirectAttributes.addFlashAttribute("social", social);
         	return "redirect:/user/homeStudentSocial";
         }
         

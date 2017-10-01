@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.icr.model.ComparatorePerData;
 import it.uniroma3.icr.model.ComparatoreResultPerWordeX;
@@ -222,9 +223,10 @@ public class TaskController {
 	@RequestMapping(value= "user/newTaskSocial", method = RequestMethod.GET)
 	public String taskChoose2(@ModelAttribute Task task, @ModelAttribute Job job, @ModelAttribute Result result,
 			@ModelAttribute("taskResults") TaskWrapper taskResults, Model model,
-			HttpServletRequest request) {
+			HttpServletRequest request,@RequestParam("social") String social) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String s = auth.getName();
+		model.addAttribute("social", social);
 		Student student = studentFacade.findUser(s);
 		model.addAttribute("student", student);
 		Long taskId = (Long)request.getSession().getAttribute("thisId");
@@ -267,10 +269,11 @@ public class TaskController {
 
 	@RequestMapping(value="user/secondConsoleWordSocial", method = RequestMethod.POST)
 	public String taskRecapWord2(@ModelAttribute("taskResults") TaskWrapper taskResults,
-			Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+			Model model, HttpServletRequest request, HttpServletResponse response,@RequestParam("social") String social) throws IOException {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String s = auth.getName();
+		model.addAttribute("social", social);
 		Student student = studentFacade.findUser(s);
 		model.addAttribute("student", student);
 
@@ -290,7 +293,7 @@ public class TaskController {
 			}
 			resultFacade.updateListResult(taskResults);
 			request.getSession().removeAttribute("thisId");
-			response.sendRedirect("newTaskSocial");
+			response.sendRedirect("newTaskSocial?social="+social);
 			targetUrl = "users/newTaskWordSocial";
 		}
 		else{
@@ -312,13 +315,13 @@ public class TaskController {
 	}
 	@RequestMapping(value="user/secondConsoleSocial", method = RequestMethod.POST)
 	public String taskRecap2(@ModelAttribute("taskResults") TaskWrapper taskResults,
-			Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+			Model model, HttpServletRequest request, HttpServletResponse response,@RequestParam("social") String social) throws IOException {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String s = auth.getName();
 		Student student = studentFacade.findUser(s);
 		model.addAttribute("student", student);
-
+		model.addAttribute("social", social);
 		String action = request.getParameter("action");
 		String targetUrl = "";
 
@@ -335,7 +338,7 @@ public class TaskController {
 			}
 			resultFacade.updateListResult(taskResults);
 			request.getSession().removeAttribute("thisId");
-			response.sendRedirect("newTaskSocial");
+			response.sendRedirect("newTaskSocial?social="+social);
 
 			targetUrl = "users/newTaskSocial";
 		}
@@ -358,13 +361,14 @@ public class TaskController {
 	}
 	
 	@RequestMapping(value="user/studentTasksSocial")
-	public String studentTasks2(Model model) {
+	public String studentTasks2(Model model,@RequestParam("social")String social) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Student s = studentFacade.findUser(auth.getName());
 		List<Task> studentTasks = taskFacade.findTaskByStudent(s.getId());
 		Collections.sort(studentTasks, new ComparatorePerData());
 		model.addAttribute("studentTasks", studentTasks);
 		model.addAttribute("s", s);
+		model.addAttribute("social", social);
 		return "users/studentTasksSocial";
 	}
 }		

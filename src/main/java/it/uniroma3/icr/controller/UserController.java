@@ -120,14 +120,14 @@ public class UserController {
 			return "registration";
 		}*/
 		
-		 String [] fields = {"email"};
+		/* String [] fields = {"email"};
 	     User user = facebook.fetchObject("me", User.class, fields);
 	     String emailFB= user.getEmail();
 		
 		if(!emailFB.equals(student.getUsername())){
 			model.addAttribute("errUsername","*Devi inserire la mail del tuo account facebook");
 			return "registrationFacebook"; 
-		}
+		}*/
 		
 		
 		if(studentValidator2.validate(student,model,u,a)){
@@ -158,11 +158,11 @@ public class UserController {
 			return "registration";
 		}*/
 		
-		String emailGoogle=google.userOperations().getUserInfo().getEmail();
+		/*String emailGoogle=google.userOperations().getUserInfo().getEmail();
 		if(!emailGoogle.equals(student.getUsername())){	
 			model.addAttribute("errUsername","*Devi inserire la mail del tuo account google");
 			return "registrationGoogle"; //
-		}
+		}*/
      
 		if(studentValidator2.validate(student,model,u,a)){
 			model.addAttribute("student", student);
@@ -210,11 +210,14 @@ public class UserController {
 		return "users/homeStudent";
 	}
 	@RequestMapping(value="/user/homeStudentSocial")
-	public String toHomeStudentSocial(@ModelAttribute Student student, Model model) {
+	public String toHomeStudentSocial(@ModelAttribute Student student, Model model,@ModelAttribute("social") String social) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		student = userFacade.findUser(username);
 		model.addAttribute("student", student);
+		
+		model.addAttribute("social", social);
+		
 		return "users/homeStudentSocial";
 	}
 
