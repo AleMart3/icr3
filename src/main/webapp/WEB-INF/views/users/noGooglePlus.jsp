@@ -30,7 +30,7 @@
 						<div id="menu">
 							<ul>
 								<li>
-								<form name="submitForm2" method="POST" action="/connect/google">
+								<form name="submitForm2" method="POST" action="${pageContext.request.contextPath}/connect/google">
     								<input type="hidden" name="_method" value="delete" />
    									 <A HREF="javascript:document.submitForm2.submit()" style="
    									 		border: 0;

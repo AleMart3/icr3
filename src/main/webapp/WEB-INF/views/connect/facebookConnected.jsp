@@ -38,7 +38,7 @@
 								<li><a href="${pageContext.request.contextPath}/index">Torna alla pagina principale</a>
 								
 								
- 									<li><form name="submitForm1" method="POST" action="/connect/facebook">
+ 									<li><form name="submitForm1" method="POST" action="${pageContext.request.contextPath}/connect/facebook">
     								<input type="hidden" name="_method" value="delete" />
    									 <A HREF="javascript:document.submitForm1.submit()" style="
    									 		border: 0;

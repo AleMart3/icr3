@@ -44,7 +44,7 @@
 								<li><a href="homeStudentSocial?social=${social}">Torna alla pagine dello
 										studente</a></li>
 								<c:if test="${social=='fb'}">
- 									<li><form name="submitForm1" method="POST" action="/connect/facebook">
+ 									<li><form name="submitForm1" method="POST" action="${pageContext.request.contextPath}/connect/facebook">
     								<input type="hidden" name="_method" value="delete" />
    									 <A HREF="javascript:document.submitForm1.submit()" style="
    									 		border: 0;
@@ -60,7 +60,7 @@
 								
 								<c:if test="${social=='goo'}">
 								<li>
-								<form name="submitForm2" method="POST" action="/connect/google">
+								<form name="submitForm2" method="POST" action="${pageContext.request.contextPath}/connect/google">
     								<input type="hidden" name="_method" value="delete" />
    									 <A HREF="javascript:document.submitForm2.submit()" style="
    									 		border: 0;

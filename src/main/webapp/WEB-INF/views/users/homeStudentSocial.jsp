@@ -39,7 +39,7 @@
 								<li><a href="studentTasksSocial?social=${social}">Task Effettuati</a></li>
 							
 								<c:if test="${social=='fb'}">
- 									<li><form name="submitForm1" method="POST" action="/connect/facebook">
+ 									<li><form name="submitForm1" method="POST" action="${pageContext.request.contextPath}/connect/facebook">
     								<input type="hidden" name="_method" value="delete" />
    									 <A HREF="javascript:document.submitForm1.submit()" style="
    									 		border: 0;
@@ -55,7 +55,7 @@
 								
 								<c:if test="${social=='goo'}">
 								<li>
-								<form name="submitForm2" method="POST" action="/connect/google">
+								<form name="submitForm2" method="POST" action="${pageContext.request.contextPath}/connect/google">
     								<input type="hidden" name="_method" value="delete" />
    									 <A HREF="javascript:document.submitForm2.submit()" style="
    									 		border: 0;
@@ -102,7 +102,7 @@
 	<script src="${pageContext.request.contextPath}/js/util.js"></script>
 	<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
 	<script src="${pageContext.request.contextPath}/js/main.js"></script>
-		<script src="${pageContext.request.contextPath}/js/backButton.js"></script>
+	<script src="${pageContext.request.contextPath}/js/backButton.js"></script>
 
 </body>
 </html>
