@@ -4,12 +4,13 @@ import org.springframework.ui.Model;
 
 import it.uniroma3.icr.model.Administrator;
 import it.uniroma3.icr.model.Student;
+import it.uniroma3.icr.model.StudentSocial;
 
 
 
 public class studentValidator2 {
 	
-	public static boolean validate(Student student, Model model,Student u,Administrator a) {
+	public static boolean validate(StudentSocial student, Model model,StudentSocial u,Administrator a) {
 		boolean verifica=true;
 		
 		

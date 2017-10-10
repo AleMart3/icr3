@@ -375,6 +375,8 @@ public class AdminController {
 	@RequestMapping(value="admin/studentsProductivity")
 	public String studentsProductivity(Model model) throws IllegalArgumentException, IllegalAccessException {
 		List<Object> tasks = facadeTask.studentsProductivity();
+		List<Object> tasks2 = facadeTask.studentsProductivity2();
+		tasks.addAll(tasks2);
 		List<StudentsProductivity> produttivita = new ArrayList<>();
 		for(Object o : tasks) {
 			StudentsProductivity ps = new StudentsProductivity();

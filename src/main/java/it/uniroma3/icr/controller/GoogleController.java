@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.icr.model.Student;
-import it.uniroma3.icr.service.impl.StudentFacade;
+import it.uniroma3.icr.model.StudentSocial;
+import it.uniroma3.icr.service.impl.StudentFacadeSocial;
 
 
 
@@ -33,7 +34,7 @@ public class GoogleController {
     private Google google;
     private ConnectionRepository connectionRepository;
     @Autowired
-	private StudentFacade userFacade;
+	private StudentFacadeSocial userFacadesocial;
 
     public GoogleController(Google google, ConnectionRepository connectionRepository) {
         this.google = google;
@@ -55,14 +56,14 @@ public class GoogleController {
 
         String email=google.userOperations().getUserInfo().getEmail();
        
-        Student student= userFacade.findUser(email);
+        StudentSocial student= userFacadesocial.findUser(email);
         if(student!=null){
         	SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
             List<SimpleGrantedAuthority> updatedAuthorities = new ArrayList<SimpleGrantedAuthority>();
             updatedAuthorities.add(authority);
             
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-            												student.getUsername(),student.getPassword(),updatedAuthorities);
+            												student.getUsername(),"",updatedAuthorities);
             auth.setDetails(student); 
             SecurityContextHolder.getContext().setAuthentication(auth);
         	model.addAttribute("student", student);

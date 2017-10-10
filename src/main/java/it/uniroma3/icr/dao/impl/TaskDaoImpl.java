@@ -41,6 +41,16 @@ public class TaskDaoImpl implements TaskDaoCustom {
 		List<Object> tasks = query.getResultList();
 		return tasks;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object> studentsProductivity2() {
+		String sql = "select studentsocial.id, studentsocial.name, studentsocial.surname, count(*) as numero_task from Task task, StudentSocial studentsocial where (task.studentsocial.id=studentsocial.id) group by studentsocial.id "
+				+ "order by numero_task ";
+		Query query = this.entityManager.createQuery(sql);
+		List<Object> tasks = query.getResultList();
+		return tasks;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.social.google.api.Google;
 import it.uniroma3.icr.model.Administrator;
 import it.uniroma3.icr.model.Student;
+import it.uniroma3.icr.model.StudentSocial;
 import it.uniroma3.icr.service.impl.AdminFacade;
 import it.uniroma3.icr.service.impl.StudentFacade;
+import it.uniroma3.icr.service.impl.StudentFacadeSocial;
 import it.uniroma3.icr.validator.studentValidator;
 import it.uniroma3.icr.validator.studentValidator2;
 
@@ -43,6 +45,9 @@ public class UserController {
 	
 	@Autowired
 	private StudentFacade userFacade;
+	
+	@Autowired
+	private StudentFacadeSocial userFacadesocial;
 	
 	@Autowired
 	private AdminFacade adminFacade;
@@ -104,7 +109,7 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/addUserFromFB", method = RequestMethod.POST)
-	public String confirmUserFB(@ModelAttribute Student student, Model model, @Validated Student p, BindingResult bindingResult) {
+	public String confirmUserFB(@ModelAttribute StudentSocial student, Model model, @Validated Student p, BindingResult bindingResult) {
 
 		Map<String,String> schoolGroups = new HashMap<String,String>();
 		schoolGroups.put("3", "3");
@@ -112,7 +117,7 @@ public class UserController {
 		schoolGroups.put("5", "5");
 		model.addAttribute("schoolGroups", schoolGroups);
 		
-		Student u = userFacade.findUser(student.getUsername());
+		StudentSocial u = userFacadesocial.findUser(student.getUsername());
 		
 		Administrator a= adminFacade.findAdmin(student.getUsername());
 	
@@ -132,7 +137,7 @@ public class UserController {
 		
 		if(studentValidator2.validate(student,model,u,a)){
 			model.addAttribute("student", student);
-			userFacade.retrieveUser(student);
+			userFacadesocial.retrieveUser(student);
 			model.addAttribute("social","fb");
 			return "registrationRecap"; 
 			} 
@@ -144,7 +149,7 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/addUserFromGoogle", method = RequestMethod.POST)
-	public String confirmUserGoogle(@ModelAttribute Student student, Model model, @Validated Student p, BindingResult bindingResult) {
+	public String confirmUserGoogle(@ModelAttribute StudentSocial student, Model model, @Validated Student p, BindingResult bindingResult) {
 
 		Map<String,String> schoolGroups = new HashMap<String,String>();
 		schoolGroups.put("3", "3");
@@ -152,7 +157,7 @@ public class UserController {
 		schoolGroups.put("5", "5");
 		model.addAttribute("schoolGroups", schoolGroups);
 		
-		Student u = userFacade.findUser(student.getUsername());
+		StudentSocial u = userFacadesocial.findUser(student.getUsername());
 		Administrator a= adminFacade.findAdmin(student.getUsername());
 	
 		/*if(bindingResult.hasErrors() || student.getName().isEmpty() || student.getSurname().isEmpty()) {
@@ -167,7 +172,7 @@ public class UserController {
      
 		if(studentValidator2.validate(student,model,u,a)){
 			model.addAttribute("student", student);
-			userFacade.retrieveUser(student);
+			userFacadesocial.retrieveUser(student);
 			model.addAttribute("social","goo");
 			return "registrationRecap"; 
 			} 
@@ -212,10 +217,10 @@ public class UserController {
 		return "users/homeStudent";
 	}
 	@RequestMapping(value="/user/homeStudentSocial")
-	public String toHomeStudentSocial(@ModelAttribute Student student, Model model,@ModelAttribute("social") String social) {
+	public String toHomeStudentSocial(@ModelAttribute StudentSocial student, Model model,@ModelAttribute("social") String social) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		student = userFacade.findUser(username);
+		student = userFacadesocial.findUser(username);
 		model.addAttribute("student", student);
 		
 		model.addAttribute("social", social);

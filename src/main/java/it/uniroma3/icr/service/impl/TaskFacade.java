@@ -16,6 +16,7 @@ import it.uniroma3.icr.model.Image;
 import it.uniroma3.icr.model.Job;
 import it.uniroma3.icr.model.Result;
 import it.uniroma3.icr.model.Student;
+import it.uniroma3.icr.model.StudentSocial;
 import it.uniroma3.icr.model.Task;
 
 
@@ -45,6 +46,15 @@ public class TaskFacade {
 	public List<Task> findTaskByStudent(Long id) {
 		return this.taskDao.findByStudentId(id);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Task> findTaskByStudentSocial(Long id) {
+		
+		String s = "SELECT t FROM Task t WHERE t.studentsocial.id='"+ id +"'";
+		Query querys= this.entityManager.createQuery(s);
+		List<Task> tasks = querys.getResultList(); 
+		return tasks;
+	}
 
 	@SuppressWarnings("unchecked")
 	public Task assignTask(Student s, Long id) {
@@ -59,7 +69,7 @@ public class TaskFacade {
 			Query query3= this.entityManager.createQuery(sr3);
 			List<Task> taskList = query3.getResultList(); //trova i task senza data finale dello studente
 			
-			String sr4 = "SELECT t FROM Task t WHERE t.student.id IS NULL";
+			String sr4 = "SELECT t FROM Task t WHERE t.student.id IS NULL AND t.studentsocial.id IS NULL";
 			Query query4= this.entityManager.createQuery(sr4);
 			List<Task> taskList2 = query4.getResultList(); //trova i task senza studente
 			
@@ -83,15 +93,20 @@ public class TaskFacade {
 					Integer batch= taskList.get(i).getBatch();
 					
 						
-						String sr5 = "SELECT t.student.id FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.student IS NOT NULL";
-						Query query5= this.entityManager.createQuery(sr5);
-						List<Long> utentiConQuelJob = query5.getResultList(); 
+					String sr5 = "SELECT t.studentsocial.id FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.studentsocial IS NOT NULL";
+					Query query5= this.entityManager.createQuery(sr5);
+					List<Long> utentiConQuelJob = query5.getResultList(); 
+					String sr7 = "SELECT t.student.id FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.student IS NOT NULL";
+					Query query7= this.entityManager.createQuery(sr7);
+					List<Long> utentiConQuelJob2 = query7.getResultList(); 
+					
+					utentiConQuelJob.addAll(utentiConQuelJob2); 
 						
 						if(utentiConQuelJob.contains(s.getId())) {
 							String sr6 = "SELECT t.batch FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.student='"+ s.getId()+"'"+"AND end_date IS NOT NULL";
 							Query query6= this.entityManager.createQuery(sr6);
-							List<Integer> batchUtentiConQuelJob = query6.getResultList(); 
-							boolean o=batchUtentiConQuelJob.contains(batch);
+							List<Integer> batchesUtenteConQuelJob = query6.getResultList(); 
+							boolean o=batchesUtenteConQuelJob.contains(batch);
 							if(o==false)
 							 ver=true;
 						}
@@ -127,6 +142,97 @@ public class TaskFacade {
 		return task;
 	}
 
+	
+	
+	@SuppressWarnings("unchecked")
+	public Task assignTask2(StudentSocial s, Long id) {
+		Task task = null;
+		if(id == null){
+			
+			String sr2 = "SELECT t FROM Task t WHERE t.studentsocial.id='"+ s.getId()+"'"+"AND t.endDate IS NOT NULL";
+			Query query2= this.entityManager.createQuery(sr2);
+			List<Task> tasksByStudent = query2.getResultList(); //trova i task completati  dallo studente
+			
+			String sr3 = "SELECT t FROM Task t WHERE t.studentsocial.id='"+s.getId()+"'"+ "AND t.endDate IS NULL";
+			Query query3= this.entityManager.createQuery(sr3);
+			List<Task> taskList = query3.getResultList(); //trova i task senza data finale dello studente
+			
+			String sr4 = "SELECT t FROM Task t WHERE t.studentsocial.id IS NULL AND t.student.id IS NULL";
+			Query query4= this.entityManager.createQuery(sr4);
+			List<Task> taskList2 = query4.getResultList(); //trova i task senza studente
+			
+			taskList.addAll(taskList2); // task senza studente+ task senza data finale
+			
+			String sr = "SELECT distinct job_id FROM task WHERE studentsocial_id='"+ s.getId()+"'"+"AND end_date IS NOT NULL";
+			Query query= this.entityManager.createNativeQuery(sr);
+			List<BigInteger> jobsIdCompletati = query.getResultList(); //job effettuati dallo studente
+			
+		
+			
+	for(int i=0; i<taskList.size();i++){
+				
+				Long jobId= taskList.get(i).getJob().getId();
+				int cont=0;
+				boolean ver=false;
+				
+				for(int z=0;z<jobsIdCompletati.size();z++)
+				if(jobId==jobsIdCompletati.get(z).longValue()) {
+					cont++;
+					Integer batch= taskList.get(i).getBatch();
+					
+						
+						String sr5 = "SELECT t.studentsocial.id FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.studentsocial IS NOT NULL";
+						Query query5= this.entityManager.createQuery(sr5);
+						List<Long> utentiConQuelJob = query5.getResultList(); 
+						String sr7 = "SELECT t.student.id FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.student IS NOT NULL";
+						Query query7= this.entityManager.createQuery(sr7);
+						List<Long> utentiConQuelJob2 = query7.getResultList(); 
+						
+						utentiConQuelJob.addAll(utentiConQuelJob2);
+						
+						if(utentiConQuelJob.contains(s.getId())) {
+							String sr6 = "SELECT t.batch FROM Task t WHERE t.job.id='"+jobId+"'"+"AND t.studentsocial='"+ s.getId()+"'"+"AND end_date IS NOT NULL";
+							Query query6= this.entityManager.createQuery(sr6);
+							List<Integer> batchesUtenteConQuelJob = query6.getResultList(); 
+							boolean o=batchesUtenteConQuelJob.contains(batch);
+							if(o==false)
+							 ver=true;
+						}
+					
+						
+					
+				}
+				if(cont==0 || ver){
+				
+					if(false==tasksByStudent.contains(taskList.get(i))){
+						task = taskList.get(i);
+						task.setStudentsocial(s);
+						Calendar calendar = Calendar.getInstance();
+						java.util.Date now = calendar.getTime();
+						java.sql.Timestamp date = new java.sql.Timestamp(now.getTime());
+						task.setStartDate(date);
+
+						break;
+					}	
+				}
+				
+			
+			}
+			if(task!=null){
+				s.addTask(task);
+				this.taskDao.save(task);
+			}
+		}else{
+			task = this.taskDao.findOne(id);
+		}
+
+		
+		return task;
+	}
+	
+	
+	
+	
 	public void updateEndDate(Task t) {
 		taskDao.updateEndDate(t);
 	}	
@@ -135,6 +241,9 @@ public class TaskFacade {
 
 	public List<Object> studentsProductivity() {
 		return this.taskDao.studentsProductivity();
+	}
+	public List<Object> studentsProductivity2() {
+		return this.taskDao.studentsProductivity2();
 	}
 
 	public List<Object> taskTimes() {

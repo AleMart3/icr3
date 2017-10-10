@@ -26,6 +26,7 @@ import it.uniroma3.icr.model.Job;
 import it.uniroma3.icr.model.Result;
 import it.uniroma3.icr.model.Sample;
 import it.uniroma3.icr.model.Student;
+import it.uniroma3.icr.model.StudentSocial;
 import it.uniroma3.icr.model.Task;
 import it.uniroma3.icr.model.TaskWrapper;
 import it.uniroma3.icr.service.editor.ImageEditor;
@@ -36,6 +37,7 @@ import it.uniroma3.icr.service.impl.NegativeSampleService;
 import it.uniroma3.icr.service.impl.ResultFacade;
 import it.uniroma3.icr.service.impl.SampleService;
 import it.uniroma3.icr.service.impl.StudentFacade;
+import it.uniroma3.icr.service.impl.StudentFacadeSocial;
 import it.uniroma3.icr.service.impl.SymbolFacade;
 import it.uniroma3.icr.service.impl.TaskFacade;
 
@@ -57,6 +59,10 @@ public class TaskController {
 	public TaskFacade taskFacade;
 	@Autowired
 	public StudentFacade studentFacade;
+	
+	@Autowired
+	public StudentFacadeSocial studentFacadesocial;
+	
 	@Autowired ResultFacade resultFacade;
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -79,11 +85,11 @@ public class TaskController {
 		String s = auth.getName();
 		Student student = studentFacade.findUser(s);
 		model.addAttribute("student", student);
-		Long taskId = (Long)request.getSession().getAttribute("thisId");
+		Long taskId = (Long)request.getSession().getAttribute("thisId2");
 		task = taskFacade.assignTask(student, taskId);
 		if(task!=null) {
 
-			request.getSession().setAttribute("thisId", task.getId());
+			request.getSession().setAttribute("thisId2", task.getId());
 
 			List<Sample> positiveSamples = sampleService.findAllSamplesBySymbolId(task.getJob().getSymbol().getId());
 			List<Sample> negativeSamples = negativeSampleService.findAllNegativeSamplesBySymbolId(task.getJob().getSymbol().getId());
@@ -141,7 +147,7 @@ public class TaskController {
 					result.setAnswer("No");
 			}
 			resultFacade.updateListResult(taskResults);
-			request.getSession().removeAttribute("thisId");
+			request.getSession().removeAttribute("thisId2");
 			response.sendRedirect("newTask");
 			targetUrl = "users/newTaskWord";
 		}
@@ -155,7 +161,7 @@ public class TaskController {
 				}
 				resultFacade.updateListResult(taskResults);
 			}
-			request.getSession().removeAttribute("thisId");
+			request.getSession().removeAttribute("thisId2");
 			targetUrl = "users/homeStudent";
 		}
 
@@ -186,7 +192,7 @@ public class TaskController {
 					result.setAnswer("No");
 			}
 			resultFacade.updateListResult(taskResults);
-			request.getSession().removeAttribute("thisId");
+			request.getSession().removeAttribute("thisId2");
 			response.sendRedirect("newTask");
 
 			targetUrl = "users/newTask";
@@ -201,7 +207,7 @@ public class TaskController {
 				}
 				resultFacade.updateListResult(taskResults);
 			}
-			request.getSession().removeAttribute("thisId");
+			request.getSession().removeAttribute("thisId2");
 			targetUrl = "users/homeStudent";
 		}
 
@@ -227,10 +233,10 @@ public class TaskController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String s = auth.getName();
 		model.addAttribute("social", social);
-		Student student = studentFacade.findUser(s);
+		StudentSocial student = studentFacadesocial.findUser(s);
 		model.addAttribute("student", student);
 		Long taskId = (Long)request.getSession().getAttribute("thisId");
-		task = taskFacade.assignTask(student, taskId);
+		task = taskFacade.assignTask2(student, taskId);
 		if(task!=null) {
 
 			request.getSession().setAttribute("thisId", task.getId());
@@ -274,7 +280,7 @@ public class TaskController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String s = auth.getName();
 		model.addAttribute("social", social);
-		Student student = studentFacade.findUser(s);
+		StudentSocial student = studentFacadesocial.findUser(s);
 		model.addAttribute("student", student);
 
 		String action = request.getParameter("action");
@@ -319,7 +325,7 @@ public class TaskController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String s = auth.getName();
-		Student student = studentFacade.findUser(s);
+		StudentSocial student = studentFacadesocial.findUser(s);
 		model.addAttribute("student", student);
 		model.addAttribute("social", social);
 		String action = request.getParameter("action");
@@ -363,8 +369,8 @@ public class TaskController {
 	@RequestMapping(value="user/studentTasksSocial")
 	public String studentTasks2(Model model,@RequestParam("social")String social) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Student s = studentFacade.findUser(auth.getName());
-		List<Task> studentTasks = taskFacade.findTaskByStudent(s.getId());
+		StudentSocial s = studentFacadesocial.findUser(auth.getName());
+		List<Task> studentTasks = taskFacade.findTaskByStudentSocial(s.getId());
 		Collections.sort(studentTasks, new ComparatorePerData());
 		model.addAttribute("studentTasks", studentTasks);
 		model.addAttribute("s", s);

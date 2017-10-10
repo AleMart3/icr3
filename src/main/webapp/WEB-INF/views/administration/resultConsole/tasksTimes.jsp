@@ -51,9 +51,9 @@
 		<tr>
 			<th> Job ID </th>
 			<th> Batch </th>
-			<th>Tempo Medio</th>
-			<th>Tempo Massimo</th>
-			<th>Tempo Minimo</th>
+			<th>Tempo Medio h:min:s:ms</th>
+			<th>Tempo Massimo h:min:s:ms</th>
+			<th>Tempo Minimo h:min:s:ms</th>
 		</tr>
 		<c:forEach var="ts" items="${taskTimes}">
 			<tr>

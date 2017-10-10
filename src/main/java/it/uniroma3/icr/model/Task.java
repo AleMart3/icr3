@@ -32,6 +32,9 @@ public class Task {
 	private Student student;
 	
 	@ManyToOne
+	private StudentSocial studentsocial;
+	
+	@ManyToOne
 	private Job job;
 	
 	@OneToMany(mappedBy="task")
@@ -52,6 +55,16 @@ public class Task {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
+	
+	
+
+	public StudentSocial getStudentsocial() {
+		return studentsocial;
+	}
+
+	public void setStudentsocial(StudentSocial studentsocial) {
+		this.studentsocial = studentsocial;
+	}
 
 	public Job getJob() {
 		return job;
@@ -69,13 +82,14 @@ public class Task {
 		this.results = results;
 	}
 
-	public Task(Long id, int batch, Timestamp startDate, Timestamp endDate, Student student, Job job,
+	public Task(Long id, int batch, Timestamp startDate, Timestamp endDate, Student student,StudentSocial studentsocial, Job job,
 			List<Result> results) {
 		this.id = id;
 		this.batch = batch;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.student = student;
+		this.studentsocial=studentsocial;
 		this.job = job;
 		this.results = results;
 	}
