@@ -175,57 +175,14 @@ public class AdminController {
 		List<Image> imagesTask = null;
 		if(number!=null){
 		if(manuscript.getWords()!=null){
-//			job.setNumberOfImages(0);
-//			job.setManuscript(manuscript);
-//			job.setNumberOfWords(number);
+
 			jobWords = this.wordFacade.getWordsForManuscriptName(manuscript.getName(), number);
-//			job.setWords(jobWords);
-//			this.facadeJob.addJob(job);
-//			for(int i = 0; i<job.getNumberOfStudents() ; i++){
-//				int batchNumber = 0;
-//
-//				for(int r = 0 ; r<number ; r++) {
-//					if ((r % job.getTaskSize())==0) {
-//
-//						task = new Task();
-//						task.setBatch(batchNumber);
-//						task.setJob(job);
-//						job.addTask(task);
-//						this.facadeTask.addTask(task);
-//						batchNumber++;
-//					}
-//					List<Image> images =job.getWords().get(r).getImages();
-//
-//					for(int j = 0; j<images.size() ; j++ ){
-//						result = new Result();
-//						result.setImage(images.get(j));
-//						result.setTask(task);
-//						facadeResult.addResult(result);				
-//					}
-//				}
-//			}
+
 			bool=true;
 		}else{ 
 			imagesTask = this.imageFacade.getImagesForTypeAndManuscriptName(job.getSymbol().getType(), manuscript.getName(),job.getNumberOfImages());
 			job.setImages(imagesTask);
-//			this.facadeJob.addJob(job);
-//			for(int i = 0; i<job.getNumberOfStudents;i++) {
-//				int batchNumber = 0;
-//				for(int r=0;r<job.getImages().size();r++) {
-//					if ((r % job.getTaskSize())==0) {
-//						task = new Task();
-//						task.setBatch(batchNumber);
-//						task.setJob(job);
-//						facadeTask.addTask(task);
-//						batchNumber++;
-//					}
-//					Image j = job.getImages().get(r);
-//					result = new Result();
-//					result.setImage(j);
-//					result.setTask(task);
-//					facadeResult.addResult(result);
-//				}
-//			}
+
 		}
 		}
 		

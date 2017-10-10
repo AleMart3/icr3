@@ -133,6 +133,7 @@ public class UserController {
 		if(studentValidator2.validate(student,model,u,a)){
 			model.addAttribute("student", student);
 			userFacade.retrieveUser(student);
+			model.addAttribute("social","fb");
 			return "registrationRecap"; 
 			} 
 			else{
@@ -167,6 +168,7 @@ public class UserController {
 		if(studentValidator2.validate(student,model,u,a)){
 			model.addAttribute("student", student);
 			userFacade.retrieveUser(student);
+			model.addAttribute("social","goo");
 			return "registrationRecap"; 
 			} 
 			else{

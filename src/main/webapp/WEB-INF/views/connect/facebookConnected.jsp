@@ -35,7 +35,7 @@
 					<li class="special"><a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="${pageContext.request.contextPath}/index">Torna alla pagina principale</a>
+								
 								
 								
  									<li><form name="submitForm1" method="POST" action="${pageContext.request.contextPath}/connect/facebook">

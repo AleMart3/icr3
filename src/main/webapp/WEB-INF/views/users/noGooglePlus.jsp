@@ -38,7 +38,7 @@
 											letter-spacing: 0.225em;
 											text-decoration: none;
 											text-transform: uppercase;">
-									Torna alla pagina principale
+									Logout
 									</A>
 								</form>
 								</li>
@@ -54,8 +54,9 @@
 		<div class="inner">
 
 			<h2>Non hai un account Google+</h2>
-				<form action="https://plus.google.com/">
-    			<input type="submit" value="Entra in Google+" />
+				<form method="post" action="${pageContext.request.contextPath}/connect/google">
+				<input type="hidden" name="_method" value="delete" />
+    			<input type="submit" value="Logout" />
 				</form>
 				
 				 <span class="container" ></span>

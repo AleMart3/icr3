@@ -84,7 +84,7 @@
 			
 			<div id="buttonreplacement" style="margin-left:60px; display:none;">
 
-				<img src="img/siteImages/loadIcon.gif" alt="">
+				<img src="${pageContext.request.contextPath}/img/siteImages/loadIcon.gif" alt="">
 
 			</div>
 

@@ -35,8 +35,8 @@ public class TaskDaoImpl implements TaskDaoCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> studentsProductivity() {
-		//String sql = "select student.id, student.name, student.surname, count(*) as numero_task from Student student, Task task, Result result where (student.id=task.student.id and task.id = result.task.id) group by student.id order by numero_task "; //questo è il numero immagini selezionate
-		String sql = "select student.id, student.name, student.surname, count(*) as numero_task from Task task, Student student where (task.student.id=student.id) group by student.id order by numero_task ";
+		String sql = "select student.id, student.name, student.surname, count(*) as numero_task from Task task, Student student where (task.student.id=student.id) group by student.id "
+				+ "order by numero_task ";
 		Query query = this.entityManager.createQuery(sql);
 		List<Object> tasks = query.getResultList();
 		return tasks;
@@ -45,7 +45,9 @@ public class TaskDaoImpl implements TaskDaoCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> taskTimes() {
-		String sql= " select task.job.id,task.batch,to_char(avg(task.endDate - task.startDate), 'HH24:MI:SS:MS') as tempo_medio, to_char(max(task.endDate - task.startDate), 'HH24:MI:SS:MS') as tempo_massimo, to_char(min(task.endDate - task.startDate), 'HH24:MI:SS:MS') as tempo_minimo from Task task where task.endDate IS NOT NULL group by task.job.id,task.batch order by task.job.id";
+		String sql= " select task.job.id,task.batch,to_char(avg(task.endDate - task.startDate), 'HH24:MI:SS:MS') as tempo_medio, to_char(max(task.endDate - task.startDate), 'HH24:MI:SS:MS') "
+				+ "as tempo_massimo, to_char(min(task.endDate - task.startDate), 'HH24:MI:SS:MS') as tempo_minimo from Task task where task.endDate IS NOT NULL "
+				+ "group by task.job.id,task.batch order by task.job.id,task.batch";
 		Query query = this.entityManager.createQuery(sql);
 		List<Object> times = query.getResultList();
 		System.out.println(times);

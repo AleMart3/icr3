@@ -61,7 +61,7 @@ input[name="resultList[${vs.index}].answer"]:checked+label {
 <body class="landing">
 	<ul>
 		<li>
-			<h2>${student.name}${student.surname}</h2>
+			<h2>${student.name} ${student.surname}</h2>
 
 			<h2>Stai svolgendo il task relativo al ${task.job.title}
 				${task.job.symbol.transcription}</h2>

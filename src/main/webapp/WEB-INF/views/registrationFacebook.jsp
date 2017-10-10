@@ -37,9 +37,23 @@
 					<li class="special"><a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="login">Log In</a></li>
-								<li><a href="registration">Registra un nuovo Studente</a></li>
-								<li><a href="index">Torna alla pagina principale</a></li>
+									<li><form name="submitForm1" method="POST" action="${pageContext.request.contextPath}/connect/facebook">
+    								<input type="hidden" name="_method" value="delete" />
+   									 <A HREF="javascript:document.submitForm1.submit()" style="
+   									 		border: 0;
+											font-size: 0.8em;
+											letter-spacing: 0.225em;
+											-moz-transition: color 0.2s ease, border-bottom-color 0.2s ease;
+											-webkit-transition: color 0.2s ease, border-bottom-color 0.2s ease;
+											-ms-transition: color 0.2s ease, border-bottom-color 0.2s ease;
+											transition: color 0.2s ease, border-bottom-color 0.2s ease;
+											color: inherit;
+											text-decoration: none;
+											text-transform: uppercase;">
+									Login
+									</A>
+									</form>	
+									</li>
 							</ul>
 						</div></li>
 				</ul>
