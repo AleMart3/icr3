@@ -74,7 +74,7 @@ public class UserController {
 
 	
 	@RequestMapping(value="/addUser", method = RequestMethod.POST)
-	public String confirmUser(@ModelAttribute Student student, Model model, @Validated Student p, BindingResult bindingResult) {
+	public String confirmUser(@ModelAttribute Student student, Model model) {
 
 		Map<String,String> schoolGroups = new HashMap<String,String>();
 		schoolGroups.put("3", "3");
@@ -86,11 +86,6 @@ public class UserController {
 		
 		Administrator a= adminFacade.findAdmin(student.getUsername());
 	
-		/*if(bindingResult.hasErrors() || student.getName().isEmpty() || student.getSurname().isEmpty()) {
-			return "registration";
-		}*/
-		
-		
 		if(studentValidator.validate(student,model,u,a)){
 			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String passwordEncode = passwordEncoder.encode(student.getPassword());

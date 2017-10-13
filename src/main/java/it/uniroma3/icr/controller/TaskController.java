@@ -85,11 +85,8 @@ public class TaskController {
 		String s = auth.getName();
 		Student student = studentFacade.findUser(s);
 		model.addAttribute("student", student);
-		Long taskId = (Long)request.getSession().getAttribute("thisId2");
-		task = taskFacade.assignTask(student, taskId);
+		task = taskFacade.assignTask(student);
 		if(task!=null) {
-
-			request.getSession().setAttribute("thisId2", task.getId());
 
 			List<Sample> positiveSamples = sampleService.findAllSamplesBySymbolId(task.getJob().getSymbol().getId());
 			List<Sample> negativeSamples = negativeSampleService.findAllNegativeSamplesBySymbolId(task.getJob().getSymbol().getId());
@@ -147,7 +144,6 @@ public class TaskController {
 					result.setAnswer("No");
 			}
 			resultFacade.updateListResult(taskResults);
-			request.getSession().removeAttribute("thisId2");
 			response.sendRedirect("newTask");
 			targetUrl = "users/newTaskWord";
 		}
@@ -161,7 +157,6 @@ public class TaskController {
 				}
 				resultFacade.updateListResult(taskResults);
 			}
-			request.getSession().removeAttribute("thisId2");
 			targetUrl = "users/homeStudent";
 		}
 
@@ -192,7 +187,6 @@ public class TaskController {
 					result.setAnswer("No");
 			}
 			resultFacade.updateListResult(taskResults);
-			request.getSession().removeAttribute("thisId2");
 			response.sendRedirect("newTask");
 
 			targetUrl = "users/newTask";
@@ -207,7 +201,6 @@ public class TaskController {
 				}
 				resultFacade.updateListResult(taskResults);
 			}
-			request.getSession().removeAttribute("thisId2");
 			targetUrl = "users/homeStudent";
 		}
 
@@ -235,12 +228,8 @@ public class TaskController {
 		model.addAttribute("social", social);
 		StudentSocial student = studentFacadesocial.findUser(s);
 		model.addAttribute("student", student);
-		Long taskId = (Long)request.getSession().getAttribute("thisId");
-		task = taskFacade.assignTask2(student, taskId);
+		task = taskFacade.assignTask2(student);
 		if(task!=null) {
-
-			request.getSession().setAttribute("thisId", task.getId());
-
 			List<Sample> positiveSamples = sampleService.findAllSamplesBySymbolId(task.getJob().getSymbol().getId());
 			List<Sample> negativeSamples = negativeSampleService.findAllNegativeSamplesBySymbolId(task.getJob().getSymbol().getId());
 
@@ -298,7 +287,6 @@ public class TaskController {
 					result.setAnswer("No");
 			}
 			resultFacade.updateListResult(taskResults);
-			request.getSession().removeAttribute("thisId");
 			response.sendRedirect("newTaskSocial?social="+social);
 			targetUrl = "users/newTaskWordSocial";
 		}
@@ -312,7 +300,6 @@ public class TaskController {
 				}
 				resultFacade.updateListResult(taskResults);
 			}
-			request.getSession().removeAttribute("thisId");
 			targetUrl = "users/homeStudentSocial";
 		}
 
@@ -343,7 +330,6 @@ public class TaskController {
 					result.setAnswer("No");
 			}
 			resultFacade.updateListResult(taskResults);
-			request.getSession().removeAttribute("thisId");
 			response.sendRedirect("newTaskSocial?social="+social);
 
 			targetUrl = "users/newTaskSocial";
@@ -358,7 +344,6 @@ public class TaskController {
 				}
 				resultFacade.updateListResult(taskResults);
 			}
-			request.getSession().removeAttribute("thisId");
 			targetUrl = "users/homeStudentSocial";
 		}
 

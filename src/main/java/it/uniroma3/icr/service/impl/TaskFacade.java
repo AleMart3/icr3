@@ -57,10 +57,9 @@ public class TaskFacade {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Task assignTask(Student s, Long id) {
+	public Task assignTask(Student s) {
 		Task task = null;
-		if(id == null){
-			
+		
 			String sr2 = "SELECT t FROM Task t WHERE t.student.id='"+ s.getId()+"'"+"AND t.endDate IS NOT NULL";
 			Query query2= this.entityManager.createQuery(sr2);
 			List<Task> tasksByStudent = query2.getResultList(); //trova i task completati  dallo studente
@@ -119,10 +118,12 @@ public class TaskFacade {
 					if(false==tasksByStudent.contains(taskList.get(i))){
 						task = taskList.get(i);
 						task.setStudent(s);
+						if(task.getStartDate()==null) {
 						Calendar calendar = Calendar.getInstance();
 						java.util.Date now = calendar.getTime();
 						java.sql.Timestamp date = new java.sql.Timestamp(now.getTime());
 						task.setStartDate(date);
+						}
 
 						break;
 					}	
@@ -134,9 +135,7 @@ public class TaskFacade {
 				s.addTask(task);
 				this.taskDao.save(task);
 			}
-		}else{
-			task = this.taskDao.findOne(id);
-		}
+		
 
 		
 		return task;
@@ -145,10 +144,9 @@ public class TaskFacade {
 	
 	
 	@SuppressWarnings("unchecked")
-	public Task assignTask2(StudentSocial s, Long id) {
+	public Task assignTask2(StudentSocial s) {
 		Task task = null;
-		if(id == null){
-			
+		
 			String sr2 = "SELECT t FROM Task t WHERE t.studentsocial.id='"+ s.getId()+"'"+"AND t.endDate IS NOT NULL";
 			Query query2= this.entityManager.createQuery(sr2);
 			List<Task> tasksByStudent = query2.getResultList(); //trova i task completati  dallo studente
@@ -207,13 +205,14 @@ public class TaskFacade {
 					if(false==tasksByStudent.contains(taskList.get(i))){
 						task = taskList.get(i);
 						task.setStudentsocial(s);
+						if(task.getStartDate()==null) {
 						Calendar calendar = Calendar.getInstance();
 						java.util.Date now = calendar.getTime();
 						java.sql.Timestamp date = new java.sql.Timestamp(now.getTime());
 						task.setStartDate(date);
-
+						}	
 						break;
-					}	
+					}
 				}
 				
 			
@@ -222,13 +221,12 @@ public class TaskFacade {
 				s.addTask(task);
 				this.taskDao.save(task);
 			}
-		}else{
-			task = this.taskDao.findOne(id);
+			return task;
 		}
 
 		
-		return task;
-	}
+		
+	
 	
 	
 	
